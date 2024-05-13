@@ -1,0 +1,19 @@
+@import "@/styles/variables";
+
+.programsListItem {
+  width: 150px;
+  height: 140px;
+}
+
+.programsListItemBackground {
+  width: 150px;
+  height: 140px;
+  border: 1px solid rgb(185, 203, 208);
+  border-radius: 10px;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgb(114, 76, 217),
+    rgba(114, 76, 217, 0) 100%
+  );
+  opacity: 60%;
+}

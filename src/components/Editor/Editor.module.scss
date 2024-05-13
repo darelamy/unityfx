@@ -1,0 +1,10 @@
+@import "@/styles/variables";
+
+.editor {
+  box-sizing: border-box;
+  border: 2px solid $lightGray;
+  border-radius: 20px;
+  background: #fff;
+  padding: 14px;
+  color: $darkGray;
+}

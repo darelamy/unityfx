@@ -1,0 +1,92 @@
+@import "@/styles/variables";
+
+.profile {
+  margin-top: 60px;
+}
+
+.profileTop {
+  border-bottom: 3px dashed rgb(196, 196, 196);
+  padding-bottom: 50px;
+}
+
+.avatar {
+  width: 192px;
+  height: 192px;
+  object-fit: cover;
+  border: 7px solid transparent;
+  background: linear-gradient(180deg, $blueViolet 19.254%, $lightViolet 100%)
+    border-box;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  border-radius: 50%;
+  margin-right: 50px;
+
+  svg {
+    width: 178px;
+    height: 178px;
+    border-radius: 50%;
+  }
+}
+
+.editButton {
+  width: 238px;
+  border-radius: 10px;
+  background: $blueViolet;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  margin-left: 10px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: $darkGray;
+  }
+}
+
+.login {
+  color: $blueViolet;
+  font-size: 35px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.desc {
+  color: $darkGray;
+  font-size: 23px;
+  font-weight: 500;
+  line-height: 34px;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 0.5px solid $lightGray;
+}
+
+.profileStatsItemTitle {
+  color: $blueViolet;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.profileStatsItemText {
+  color: $darkGray;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.createPostButton {
+  border-radius: 10px;
+  background: $blueViolet;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 8px 16px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: $darkGray;
+  }
+}
+
+.posts {
+  margin-top: 40px;
+}

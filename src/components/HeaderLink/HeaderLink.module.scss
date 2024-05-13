@@ -1,0 +1,24 @@
+@import "@/styles/variables";
+
+.link {
+  color: $blue;
+  font-size: 18px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+
+  svg {
+    path {
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+  &:hover {
+    color: $blueViolet;
+
+    svg {
+      path {
+        fill: $blueViolet;
+      }
+    }
+  }
+}

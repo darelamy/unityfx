@@ -1,0 +1,79 @@
+@import "@/styles/variables";
+
+.formTagInputBlock {
+  margin-bottom: 15px;
+}
+
+.formTagsInput {
+  box-sizing: border-box;
+  border: 2px solid $lightGray;
+  border-radius: 20px;
+  background: #fff;
+  padding: 14px;
+  width: 445px;
+  color: $darkGray;
+  font-weight: 700;
+  transition: all 0.2s ease-in-out;
+
+  svg {
+    path {
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+  &::placeholder {
+    color: $lightGray;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  &:hover {
+    color: $darkGray;
+    border: 2px solid $darkGray;
+
+    svg {
+      path {
+        fill: $darkGray;
+      }
+    }
+  }
+
+  &:focus {
+    border: 2px solid $blueViolet;
+  }
+}
+
+.formSaveTag {
+  border-radius: 12px;
+  background: $darkGray;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 6px 24px;
+  position: absolute;
+  right: 14px;
+  transition: all 0.2s ease-in-out;
+
+  &:disabled {
+    background: rgb(244, 244, 244);
+    color: rgb(167, 167, 167);
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: $blueViolet;
+    color: #fff;
+  }
+}
+
+.tag {
+  color: $darkGray;
+  font-size: 20px;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    color: $blueViolet !important;
+  }
+}

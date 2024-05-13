@@ -1,0 +1,130 @@
+@import "@/styles/variables.scss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+input,
+button {
+  outline: none;
+}
+
+//Auth form
+
+.authForm {
+  width: 513px;
+  padding: 45px;
+  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.05);
+  background: #fff;
+  border-radius: 20px;
+  margin-top: 60px;
+}
+
+.authFormTitle {
+  background: linear-gradient(180deg, $blueViolet, $lightViolet);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 38px;
+  font-weight: 800;
+  margin-bottom: 40px;
+}
+
+.authFormInput {
+  box-sizing: border-box;
+  border: 2px solid $lightGray;
+  border-radius: 20px;
+  padding: 14px;
+  font-size: 20px;
+  font-weight: 500;
+  color: $darkGray;
+  transition: all 0.2s ease-in-out;
+
+  &::placeholder {
+    color: $lightGray;
+  }
+
+  &:focus {
+    border: 2px solid $blueViolet;
+  }
+}
+
+.authFormBottom {
+  margin-top: 30px;
+}
+
+.authFormButton {
+  border-radius: 20px;
+  background: $primary;
+  color: #fff;
+  font-size: 23px;
+  font-weight: 800;
+  padding: 13px 42px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: $blueViolet;
+  }
+}
+
+.authFormLink {
+  color: $lightViolet;
+  font-size: 20px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: $blueViolet;
+  }
+}
+
+//Editor
+
+.ce-block__content,
+.ce-toolbar__content {
+  max-width: 1050px;
+}
+
+.ce-paragraph,
+.cdx-block {
+  color: $darkGray;
+  font-size: 20px;
+  font-weight: 500;
+
+  &:before {
+    color: $lightGray !important;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+  }
+}
+
+.selectedProgram-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.selectedProgram-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    opacity 300ms,
+    transform 300ms;
+}
+
+.selectedProgram-exit {
+  opacity: 1;
+}
+
+.selectedProgram-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition:
+    opacity 300ms,
+    transform 300ms;
+}

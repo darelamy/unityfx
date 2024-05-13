@@ -1,0 +1,60 @@
+@import "@/styles/variables";
+
+.main {
+  border-top: 3px dashed rgb(196, 196, 196);
+  border-bottom: 3px dashed rgb(196, 196, 196);
+  margin-top: 60px;
+  margin-bottom: 100px;
+}
+
+.formElement {
+  margin-bottom: 25px;
+}
+
+.formElementTitle {
+  color: $darkGray;
+  font-size: 25px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.formBottomButton {
+  width: 210px;
+  font-size: 20px;
+  border-radius: 14px;
+  color: #fff;
+  font-weight: 800;
+  padding: 9px 0;
+}
+
+.formBottomUploadButton {
+  background: $darkGray;
+  transition: all 0.2s ease-in-out;
+
+  &:disabled {
+    background: rgb(244, 244, 244);
+    color: rgb(167, 167, 167);
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: $blueViolet;
+    color: #fff;
+  }
+}
+
+.formBottomCancelButton {
+  background: $red;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: $red;
+    background-color: #fff;
+    box-shadow: 0 0 0 2px $red inset;
+  }
+}
+
+.formBottom {
+  margin-bottom: 40px;
+  width: 445px;
+}

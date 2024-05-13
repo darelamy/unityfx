@@ -1,0 +1,20 @@
+<svg width="100.000000" height="100.000000" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <clipPath id="clip201_238">
+            <rect id="svg" width="76.000000" height="76.000000" transform="translate(12.000000 12.000000)" fill="white" fill-opacity="0"/>
+        </clipPath>
+        <clipPath id="clip201_236">
+            <rect id="svg" width="100.000000" height="100.000000" fill="white" fill-opacity="0"/>
+        </clipPath>
+        <linearGradient x1="50.000000" y1="24.666748" x2="50.000000" y2="78.500092" id="paint_linear_201_239_0" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#2F2F2F"/>
+            <stop offset="1.000000" stop-color="#724CD9"/>
+        </linearGradient>
+    </defs>
+    <rect id="Rectangle 22" rx="15.000000" width="100.000000" height="100.000000" fill="#FFFFFF" fill-opacity="1.000000"/>
+    <g clip-path="url(#clip201_236)">
+        <g clip-path="url(#clip201_238)">
+            <path id="path" d="M65.83 40.5C65.83 36.12 64.06 32.16 61.19 29.3C58.33 26.44 54.37 24.66 50 24.66C45.62 24.66 41.66 26.44 38.8 29.3C35.93 32.16 34.16 36.12 34.16 40.5C34.16 44.87 35.93 48.83 38.8 51.69C41.66 54.56 45.62 56.33 50 56.33C54.37 56.33 58.33 54.56 61.19 51.69C64.29 48.6 65.83 44.87 65.83 40.5ZM31 72.16C31 75.33 38.12 78.5 50 78.5C61.14 78.5 69 75.33 69 72.16C69 65.83 61.54 59.5 50 59.5C38.12 59.5 31 65.83 31 72.16Z" fill="url(#paint_linear_201_239_0)" fill-opacity="1.000000" fill-rule="nonzero"/>
+        </g>
+    </g>
+</svg>

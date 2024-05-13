@@ -1,0 +1,120 @@
+@import "@/styles/variables";
+
+.intro {
+  margin-top: 60px;
+}
+
+.introText {
+  margin-bottom: 80px;
+}
+
+.introTitle {
+  font-size: 50px;
+  font-weight: 800;
+  color: $darkGray;
+
+  span {
+    color: $blueViolet;
+  }
+}
+
+.introDesc {
+  font-size: 25px;
+  font-weight: 800;
+  color: $darkGray;
+  text-align: center;
+  width: 610px;
+  line-height: 37px;
+  margin-top: 20px;
+
+  span {
+    color: $blueViolet;
+  }
+}
+
+.programsList {
+  border-top: 3px dashed rgb(196, 196, 196);
+  border-bottom: 3px dashed rgb(196, 196, 196);
+  padding: 40px 0;
+}
+
+.ourGoal {
+  margin-top: 100px;
+  border-top: 3px dashed rgb(196, 196, 196);
+  border-bottom: 3px dashed rgb(196, 196, 196);
+  padding: 40px 0;
+}
+
+.ourGoalTitle {
+  color: $blue;
+  font-size: 50px;
+  font-weight: 800;
+}
+
+.ourGoalDesc {
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 45px;
+  color: $secondary;
+  margin-top: 20px;
+
+  span {
+    color: $blue;
+  }
+}
+
+.features {
+  margin-top: 100px;
+}
+
+.featuresTop {
+  margin-bottom: 55px;
+}
+
+.featuresTitle {
+  color: $blue;
+  font-size: 50px;
+  font-weight: 800;
+}
+
+.registerNow {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  border-top: 3px dashed rgb(196, 196, 196);
+  border-bottom: 3px dashed rgb(196, 196, 196);
+  padding: 40px 0;
+}
+
+.registerNowTitle {
+  color: $blue;
+  font-size: 50px;
+  font-weight: 800;
+}
+
+.registerNowDesc {
+  color: $darkGray;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 45px;
+  margin-top: 75px;
+
+  span {
+    color: $blue;
+  }
+}
+
+.registerNowBtn {
+  border-radius: 20px;
+  background: $blue;
+  color: #fff;
+  font-size: 23px;
+  font-weight: 800;
+  padding: 13px 101px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: $blue;
+    background-color: #fff;
+    box-shadow: 0 0 0 2px $blue inset;
+  }
+}
