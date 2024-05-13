@@ -1,0 +1,31 @@
+@import "@/styles/variables";
+
+.files {
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
+
+.file {
+  cursor: pointer;
+}
+
+.name,
+.ext {
+  color: $darkGray;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+.size {
+  color: $lightGray;
+  font-size: 10px;
+  font-weight: 500;
+}

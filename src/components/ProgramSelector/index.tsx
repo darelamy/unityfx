@@ -12,6 +12,14 @@ import { AttachIcon } from "@/icons/AttachIcon";
 import { GreenCheckMarkIcon } from "@/icons/GreenCheckMarkIcon";
 import { AnimatePresence, motion } from "framer-motion";
 
+export const programsList: IProgram[] = [
+  { id: 1, name: "Adobe After Effects", icon: <AfterEffectsIcon /> },
+  { id: 2, name: "Premiere Pro", icon: <PremiereProIcon /> },
+  { id: 3, name: "Movavi", icon: <MovaviIcon /> },
+  { id: 4, name: "Vegas Pro", icon: <VegasProIcon /> },
+  { id: 5, name: "Da Vinci Resolve", icon: <DaVinciResolveIcon /> },
+];
+
 interface ProgramSelectorProps {}
 
 interface IProgram {
@@ -25,14 +33,6 @@ const ProgramSelector: React.FC<ProgramSelectorProps> = ({}) => {
   const [selectedPrograms, setSelectedPrograms] = React.useState<IProgram[]>(
     [],
   );
-
-  const programs = [
-    { id: 1, name: "After Effects", icon: <AfterEffectsIcon /> },
-    { id: 2, name: "Premiere Pro", icon: <PremiereProIcon /> },
-    { id: 3, name: "Movavi", icon: <MovaviIcon /> },
-    { id: 4, name: "Vegas Pro", icon: <VegasProIcon /> },
-    { id: 5, name: "Da Vinci Resolve", icon: <DaVinciResolveIcon /> },
-  ];
 
   const toggleProgram = (program: IProgram) => {
     setIsOpen(false);
@@ -65,7 +65,7 @@ const ProgramSelector: React.FC<ProgramSelectorProps> = ({}) => {
               transition={{ duration: 0.6, type: "spring" }}
             >
               <div className={`${styles.programIcons} flex gap-5`}>
-                {programs.map((program) => (
+                {programsList.map((program) => (
                   <div className="relative" key={program.id}>
                     <div onClick={() => toggleProgram(program)}>
                       {program.icon}

@@ -1,0 +1,43 @@
+@import "@/styles/variables";
+
+.paginator {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.page {
+  color: $darkGray;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.activePage {
+  width: 50px;
+  height: 50px;
+  background: $blueViolet;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  border-radius: 50%;
+}
+
+.selectPageBtn {
+  width: 50px;
+  height: 50px;
+  background: $darkGray;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  border-radius: 50%;
+
+  span {
+    margin-bottom: 10px;
+  }
+}
+
+.nextPage {
+  width: 50px;
+  height: 50px;
+  background: $blueViolet;
+  border-radius: 50%;
+}

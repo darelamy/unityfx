@@ -1,0 +1,29 @@
+.videoFile {
+  width: 250px;
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+
+.videoPreviewContainer {
+  transition: all 0.2s ease-in-out;
+}
+
+.previewBg {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.videoPreview {
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.playIcon {
+  position: absolute;
+}

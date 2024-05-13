@@ -10,38 +10,32 @@ import { MovaviFileIcon } from "@/icons/MovaviFileIcon";
 import { DaVinciResolveFileIcon } from "@/icons/DaVinciResolveFileIcon";
 import { MinusIcon } from "@/icons/MinusIcon";
 import { WarningIcon } from "@/icons/WarningIcon";
+import { formatFileSize } from "@/helpers/formatFileSize";
+import { cutFileExt } from "@/helpers/cutFileExt";
+import { getFileExt } from "@/helpers/getFileExt";
+
+export const iconMapping: { [key: string]: React.ReactNode } = {
+  ".mp4": <VideoFileIcon />,
+  ".mov": <VideoFileIcon />,
+  ".webm": <VideoFileIcon />,
+  ".gif": <VideoFileIcon />,
+  ".veg": <VegasProFileIcon />,
+  ".prproj": <PremiereProFileIcon />,
+  ".aep": <AfterEffectFileIcon />,
+  ".movprj": <MovaviFileIcon />,
+  ".drp": <DaVinciResolveFileIcon />,
+  ".vpr": <VegasProFileIcon />,
+  ".ffx": <AfterEffectFileIcon />,
+};
+
+export const getFileIcon = (filename: string) => {
+  const extension = filename.slice(filename.lastIndexOf(".")).toLowerCase();
+  return iconMapping[extension];
+};
 
 const FileUploadForm: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
-
-  const iconMapping: { [key: string]: React.ReactNode } = {
-    ".mp4": <VideoFileIcon />,
-    ".mov": <VideoFileIcon />,
-    ".webm": <VideoFileIcon />,
-    ".gif": <VideoFileIcon />,
-    ".veg": <VegasProFileIcon />,
-    ".prproj": <PremiereProFileIcon />,
-    ".aep": <AfterEffectFileIcon />,
-    ".movprj": <MovaviFileIcon />,
-    ".drp": <DaVinciResolveFileIcon />,
-    ".vpr": <VegasProFileIcon />,
-    ".ffx": <AfterEffectFileIcon />,
-  };
-
-  const getFileIcon = (filename: string) => {
-    const extension = filename.slice(filename.lastIndexOf(".")).toLowerCase();
-    return iconMapping[extension];
-  };
-
-  const formatFileSize = (size: number) => {
-    const sizeInKB = size / 1024;
-    if (sizeInKB < 1024) {
-      return `${sizeInKB.toFixed(2)} КБ`;
-    } else {
-      return `${(sizeInKB / 1024).toFixed(2)} МБ`;
-    }
-  };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newFiles = event.target.files;
@@ -147,7 +141,12 @@ const FileUploadForm: React.FC = () => {
               <div className="flex items-center">
                 {getFileIcon(file.name)}
                 <div className="flex flex-col">
-                  <p className={styles.attachedFileName}>{file.name}</p>
+                  <div className="flex">
+                    <p className={styles.attachedFileName}>
+                      {cutFileExt(file.name)}
+                    </p>
+                    <span>.{getFileExt(file.name)}</span>
+                  </div>
                   <p className={styles.attachedFileSize}>
                     {formatFileSize(file.size)}
                   </p>

@@ -1,0 +1,75 @@
+@import "@/styles/variables";
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modalContent {
+  position: relative;
+  width: auto;
+  max-height: 100%;
+}
+
+.video {
+  width: 100%;
+  height: 100vh;
+}
+
+.loadingText {
+  border-radius: 50px;
+  padding: 20px;
+  font-weight: 700;
+  background: #fff;
+  color: $darkGray;
+}
+
+.videoName {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 8px 10px;
+  border-radius: 50px;
+  background: #fff;
+  color: $darkGray;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #000;
+  border: none;
+  cursor: pointer;
+
+  svg {
+    path,
+    circle {
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+  &:hover {
+    svg {
+      path {
+        fill: $darkGray;
+      }
+      circle {
+        fill: #fff;
+      }
+    }
+  }
+}

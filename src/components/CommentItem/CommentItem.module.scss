@@ -1,0 +1,46 @@
+@import "@/styles/variables";
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.login {
+  color: $blueViolet;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.createdAt {
+  color: $secondary;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.text {
+  color: $secondary;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.replyBtn {
+  color: $lightGray;
+  font-size: 20px;
+  font-weight: 800;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: $darkGray;
+  }
+}

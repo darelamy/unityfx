@@ -7,6 +7,7 @@ import styles from "./Profile.module.scss";
 import { DefaultAvatar } from "@/ui/DefaultAvatar";
 import { IUser } from "@/types/User";
 import { Post } from "@/components/Post";
+import { Paginator } from "@/components/Paginator";
 
 async function getData() {
   const user: IUser = {
@@ -36,6 +37,60 @@ async function getData() {
           filePath: "/upload/1.mp4",
           fileType: "video/mp4",
         },
+        {
+          id: "223e4567-e89b-12d3-a456-426655440000",
+          fileName: "2.mp4",
+          filePath: "/upload/1.mp4",
+          fileType: "video/mp4",
+        },
+        {
+          id: "323e4567-e89b-12d3-a456-426655440000",
+          fileName: "3.mp4",
+          filePath: "/upload/1.mp4",
+          fileType: "video/mp4",
+        },
+        {
+          id: "423e4567-e89b-12d3-a456-426655440000",
+          fileName: "4.mp4",
+          filePath: "/upload/1.mp4",
+          fileType: "video/mp4",
+        },
+        {
+          id: "523e4567-e89b-12d3-a456-426655440000",
+          fileName: "5.mp4",
+          filePath: "/upload/1.mp4",
+          fileType: "video/mp4",
+        },
+        {
+          id: "623e4567-e89b-12d3-a456-426655440000",
+          fileName: "edit.aep",
+          filePath: "/upload/edit.aep",
+          fileType: "application/octet-stream",
+        },
+        {
+          id: "723e4567-e89b-12d3-a456-426655440000",
+          fileName: "edit.veg",
+          filePath: "/upload/edit.veg",
+          fileType: "application/octet-stream",
+        },
+        {
+          id: "823e4567-e89b-12d3-a456-426655440000",
+          fileName: "edit.prproj",
+          filePath: "/upload/edit.prproj",
+          fileType: "application/octet-stream",
+        },
+        {
+          id: "923e4567-e89b-12d3-a456-426655440000",
+          fileName: "edit.movprj",
+          filePath: "/upload/edit.movprj",
+          fileType: "application/octet-stream",
+        },
+        {
+          id: "1023e4567-e89b-12d3-a456-426655440000",
+          fileName: "edit.drp",
+          filePath: "/upload/edit.drp",
+          fileType: "application/octet-stream",
+        },
       ],
       programs: [
         "adobe after effects",
@@ -62,6 +117,20 @@ async function getData() {
       comments: [
         {
           id: "123e4567-e89b-12d3-a456-426655440000",
+          author: user,
+          createdAt: new Date(),
+          text: "👏 Просто потрясающе! Я восхищен вашим творчеством и мастерством. Этот переход выглядит так естественно и плавно, словно каждый кадр танцует с другим. Вы действительно создали что-то волшебное! 💫 Жду с нетерпением, чтобы увидеть больше ваших работ!",
+          likes: [
+            {
+              id: "123e4567-e89b-12d3-a456-426655440000",
+              postId: "123e4567-e89b-12d3-a456-426655440000",
+              commentId: "123e4567-e89b-12d3-a456-426655440000",
+              author: user,
+            },
+          ],
+        },
+        {
+          id: "223e4567-e89b-12d3-a456-426655440000",
           author: user,
           createdAt: new Date(),
           text: "👏 Просто потрясающе! Я восхищен вашим творчеством и мастерством. Этот переход выглядит так естественно и плавно, словно каждый кадр танцует с другим. Вы действительно создали что-то волшебное! 💫 Жду с нетерпением, чтобы увидеть больше ваших работ!",
@@ -167,6 +236,7 @@ const ProfilePage: NextPage = async () => {
               <Post key={post.id} {...post} />
             ))}
           </div>
+          <Paginator totalPosts={5} postsPerPage={1} />
         </div>
       </div>
     </main>

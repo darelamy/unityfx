@@ -128,3 +128,25 @@ button {
     opacity 300ms,
     transform 300ms;
 }
+
+//Likes
+
+.likesCountUnliked,
+.likesCountLiked {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.likesCountLiked {
+  color: $red;
+}
+
+.likesCountUnliked {
+  color: $secondary;
+}
+
+.viewsCount {
+  color: $secondary;
+  font-size: 20px;
+  font-weight: 500;
+}
