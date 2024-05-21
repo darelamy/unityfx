@@ -44,11 +44,11 @@ const FileUploadForm: React.FC = () => {
       const fileList = Array.from(newFiles);
       const newValidFiles = fileList.filter((file) => files.length < 10);
 
-      if (files.length + fileList.length > 10) {
+      if (fileList.length >= 10) {
         setFiles([...fileList.slice(0, 10)]);
         setError("Вы не можете прикрепить больше 10 файлов");
       } else {
-        setFiles((prevFiles) => [...prevFiles, ...newValidFiles]);
+        setFiles((prevFiles) => [...prevFiles, ...newValidFiles].slice(0, 10));
         setError(null);
       }
     }
@@ -88,7 +88,9 @@ const FileUploadForm: React.FC = () => {
         <label
           htmlFor="attachFile"
           className={`${styles.formAttachFileLabel} flex items-center gap-2`}
-          style={{ pointerEvents: files.length + 1 === 10 ? "none" : "all" }}
+          style={{
+            pointerEvents: error ? "none" : "all",
+          }}
         >
           <AttachIcon />
           <span>Прикрепить файл</span>
@@ -102,7 +104,7 @@ const FileUploadForm: React.FC = () => {
           name="file"
           hidden
           multiple
-          disabled={files.length + 1 === 10}
+          disabled={files.length > 10}
         />
       </div>
       <div className={`${styles.attachedFiles} flex flex-col`}>
