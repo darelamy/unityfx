@@ -6,7 +6,6 @@ import path from "path";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
-  console.log(formData);
 
   const f = formData.get("file");
 
@@ -15,11 +14,8 @@ export async function POST(req: NextRequest) {
   }
 
   const file = f as File;
-  console.log(`File name: ${file.name}`);
-  console.log(`Content-Length: ${file.size}`);
 
   const destinationDirPath = path.join(process.cwd(), "public/upload");
-  console.log(destinationDirPath);
 
   const fileArrayBuffer = await file.arrayBuffer();
 
@@ -28,7 +24,7 @@ export async function POST(req: NextRequest) {
   }
   await fs.writeFile(
     path.join(destinationDirPath, file.name),
-    Buffer.from(fileArrayBuffer),
+    Buffer.from(fileArrayBuffer)
   );
 
   return NextResponse.json({

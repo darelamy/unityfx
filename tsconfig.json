@@ -24,7 +24,11 @@
       "@/components/*": ["./src/components/*"],
       "@/styles/*": ["./styles/*"],
       "@/svg/*": ["./public/svg/*"],
-      "@/favicons/*": ["./public/favicons/*"]
+      "@/favicons/*": ["./public/favicons/*"],
+      "@/types/*": ["./types/*"],
+      "@/helpers/*": ["./helpers/*"],
+      "@/schemas/*": ["./schemas/*"],
+      "@/lib/*": ["./lib/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

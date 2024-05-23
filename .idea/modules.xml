@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/unityfx-frontend.iml" filepath="$PROJECT_DIR$/.idea/unityfx-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/unityFX.iml" filepath="$PROJECT_DIR$/.idea/unityFX.iml" />
     </modules>
   </component>
 </project>

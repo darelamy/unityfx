@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  login          String        @unique
+  email          String        @unique
+  passwordHash   String?
+  avatarUrl      String
+  desc           String
+  followsCount   Int
+  followersCount Int
+  Post           Post[]
+  createdAt      DateTime      @default(now())
+  PostLike       PostLike[]
+  View           View[]
+  Comment        Comment[]
+  CommentLike    CommentLike[]
+}
+
+model Post {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String        @db.ObjectId
+  user        User          @relation(fields: [userId], references: [id])
+  body        Json
+  files       File[]
+  programs    String[]
+  tags        String[]
+  likes       PostLike[]
+  views       View[]
+  comments    Comment[]
+  createdAt   DateTime      @default(now())
+  CommentLike CommentLike[]
+}
+
+model PostLike {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  postId    String   @db.ObjectId
+  userId    String   @db.ObjectId
+  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model View {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  postId    String   @db.ObjectId
+  userId    String   @db.ObjectId
+  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  postId      String        @db.ObjectId
+  userId      String        @db.ObjectId
+  post        Post          @relation(fields: [postId], references: [id])
+  user        User          @relation(fields: [userId], references: [id])
+  text        String
+  createdAt   DateTime      @default(now())
+  CommentLike CommentLike[]
+}
+
+model CommentLike {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  postId    String   @db.ObjectId
+  userId    String   @db.ObjectId
+  commentId String   @db.ObjectId
+  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model File {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  postId    String   @db.ObjectId
+  post      Post     @relation(fields: [postId], references: [id])
+  fileName  String
+  filePath  String
+  fileType  String
+  createdAt DateTime @default(now())
+}

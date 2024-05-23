@@ -1,8 +1,8 @@
 import styles from "./Header.module.scss";
-import { Logo } from "../ui/Logo";
+import { Logo } from "@/ui/Logo";
 import { SearchInput } from "../SearchInput";
 import { HeaderLink } from "../HeaderLink";
-import { FireIcon } from "../ui/icons/FireIcon";
+import { FireIcon } from "@/icons/FireIcon";
 import Link from "next/link";
 import { DefaultAvatar } from "@/ui/DefaultAvatar";
 
@@ -11,7 +11,8 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ pathname }) => {
-  const isAuth = true;
+  const isAuth = false;
+
   const user = { id: 1, login: "darelamy", avatarUrl: "" };
 
   return (

@@ -45,6 +45,7 @@ button {
   font-weight: 500;
   color: $darkGray;
   transition: all 0.2s ease-in-out;
+  width: 100%;
 
   &::placeholder {
     color: $lightGray;
@@ -53,6 +54,18 @@ button {
   &:focus {
     border: 2px solid $blueViolet;
   }
+}
+
+.formFieldError,
+.formFieldMainError {
+  color: $red;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.formFieldMainError {
+  font-size: 20px;
 }
 
 .authFormBottom {
@@ -67,6 +80,11 @@ button {
   font-weight: 800;
   padding: 13px 42px;
   transition: all 0.2s ease-in-out;
+
+  &:disabled {
+    background: $lightGray;
+    pointer-events: none;
+  }
 
   &:hover {
     background: $blueViolet;
@@ -112,9 +130,7 @@ button {
 .selectedProgram-enter-active {
   opacity: 1;
   transform: translateX(0);
-  transition:
-    opacity 300ms,
-    transform 300ms;
+  transition: opacity 300ms, transform 300ms;
 }
 
 .selectedProgram-exit {
@@ -124,9 +140,7 @@ button {
 .selectedProgram-exit-active {
   opacity: 0;
   transform: scale(0.9);
-  transition:
-    opacity 300ms,
-    transform 300ms;
+  transition: opacity 300ms, transform 300ms;
 }
 
 //Likes
