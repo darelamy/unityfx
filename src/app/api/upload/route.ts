@@ -1,35 +1,79 @@
-// route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { existsSync } from "fs";
-import fs from "fs/promises";
-import path from "path";
+import { Dropbox } from "dropbox";
+import fetch from "node-fetch";
+import { NextApiResponse } from "next";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, res: NextApiResponse) {
   const formData = await req.formData();
+  const file = formData.get("file") as File;
 
-  const f = formData.get("file");
-
-  if (!f) {
-    return NextResponse.json({}, { status: 400 });
-  }
-
-  const file = f as File;
-
-  const destinationDirPath = path.join(process.cwd(), "public/upload");
-
-  const fileArrayBuffer = await file.arrayBuffer();
-
-  if (!existsSync(destinationDirPath)) {
-    fs.mkdir(destinationDirPath, { recursive: true });
-  }
-  await fs.writeFile(
-    path.join(destinationDirPath, file.name),
-    Buffer.from(fileArrayBuffer)
-  );
-
-  return NextResponse.json({
-    fileName: file.name,
-    size: file.size,
-    lastModified: new Date(file.lastModified),
+  const dbx = new Dropbox({
+    clientId: "v379w9xzvjkxzia",
+    accessToken: process.env.DROPBOX_ACCESS_TOKEN,
+    fetch,
   });
+
+  try {
+    await dbx.filesUpload({
+      path: "/" + file.name,
+      contents: file,
+    });
+
+    const sharedLinkResponse = await dbx.sharingCreateSharedLinkWithSettings({
+      path: "/" + file.name,
+    });
+
+    const fileUrl = sharedLinkResponse.result.url.replace(
+      "www.dropbox.com",
+      "dl.dropbox.com"
+    );
+
+    return NextResponse.json({
+      fileUrl,
+      fileName: file.name,
+      size: file.size,
+      lastModified: new Date(file.lastModified),
+    });
+  } catch (error) {
+    console.error(error);
+
+    return NextResponse.json(
+      {
+        error: "Ошибка при загрузке файла на Dropbox",
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req: NextRequest, res: NextApiResponse) {
+  const formData = await req.formData();
+  const file = formData.get("file") as File;
+
+  const dbx = new Dropbox({
+    accessToken: process.env.DROPBOX_ACCESS_TOKEN,
+    fetch,
+  });
+
+  try {
+    await dbx.filesUpload({
+      path: "/" + file.name,
+      contents: file,
+    });
+
+    await dbx.filesDeleteV2({ path: "/" + file.name });
+
+    return NextResponse.json({
+      fileName: file.name,
+      size: file.size,
+      lastModified: new Date(file.lastModified),
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: "Ошибка при загрузке файла на Dropbox",
+      },
+      { status: 500 }
+    );
+  }
 }

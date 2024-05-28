@@ -8,6 +8,15 @@
   border-bottom-right-radius: 20px;
 }
 
+.avatar {
+  img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
 .registerBtn {
   border-radius: 50px;
   background: $blue;
@@ -30,5 +39,12 @@
 
   &:hover {
     color: $blueViolet;
+  }
+
+  @media (max-width: 620px) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./VideoModal.module.scss";
 import { CrossIcon } from "@/icons/CrossIcon";
 
@@ -11,9 +11,9 @@ export const VideoModal = ({
   handleCloseModal: () => void;
   onVideoLoad: () => void;
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setIsLoading(true);
   }, []);
 

@@ -1,11 +1,26 @@
 interface LikeIconProps {
-  isLiked: boolean;
+  likeId?: string;
+  isLiked?: boolean;
   likesCount: number;
+  handleClick: (likeId?: string) => void;
+  isAuth?: boolean;
+  isLikeSubmitting?: boolean;
 }
 
-export const LikeIcon: React.FC<LikeIconProps> = ({ isLiked, likesCount }) => {
+export const LikeIcon: React.FC<LikeIconProps> = ({
+  likeId,
+  isLiked,
+  likesCount,
+  handleClick,
+  isAuth,
+  isLikeSubmitting,
+}) => {
   return (
-    <div className="flex items-center gap-2 cursor-pointer">
+    <div
+      className="flex items-center gap-2 cursor-pointer select-none"
+      onClick={() => handleClick(likeId)}
+      style={{ pointerEvents: isAuth && !isLikeSubmitting ? "auto" : "none" }}
+    >
       {isLiked ? (
         <svg
           width="29.000000"

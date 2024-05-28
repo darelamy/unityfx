@@ -1,10 +1,10 @@
 import styles from "./Home.module.scss";
 import { VideoPlayIcon } from "@/icons/VideoPlayIcon";
 import { ProgramsList } from "@/components/ProgramsList";
+import { Metadata, NextPage } from "next";
 import { GoalIcon } from "@/icons/GoalIcon";
 import { StarIcon } from "@/icons/StarIcon";
 import { FeaturesList } from "@/components/FeaturesList";
-import { Metadata, NextPage } from "next";
 import { ArrowIcon } from "@/icons/ArrowIcon";
 import Link from "next/link";
 
@@ -41,9 +41,13 @@ const Home: NextPage = () => {
       </section>
       <section className={styles.ourGoal}>
         <div className="container flex items-center gap-32">
-          <img src="/img/goalBlock.png" alt="goal img" />
+          <img
+            src="/img/goalBlock.png"
+            alt="goal img"
+            className={styles.ourGoalImg}
+          />
           <div>
-            <div className="flex items-center gap-8">
+            <div className={`${styles.ourGoalTop} flex items-center gap-8`}>
               <GoalIcon />
               <h3 className={styles.ourGoalTitle}>Наша цель</h3>
             </div>
@@ -69,8 +73,14 @@ const Home: NextPage = () => {
       <section className={styles.registerNow}>
         <div className="container">
           <div className="flex gap-24">
-            <img src="/img/registerNowBlock.png" alt="register now" />
-            <div className="flex flex-col items-center justify-between">
+            <img
+              src="/img/registerNowBlock.png"
+              alt="register now"
+              className={styles.registerNowImg}
+            />
+            <div
+              className={`${styles.registerNowBlock} flex flex-col items-center justify-between`}
+            >
               <div>
                 <div className="flex items-center gap-4">
                   <ArrowIcon />

@@ -1,0 +1,20 @@
+@import "@/styles/variables";
+
+.exitButton {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  svg {
+    path:nth-child(2) {
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+  &:hover {
+    svg {
+      path:nth-child(2) {
+        stroke: $blueViolet;
+      }
+    }
+  }
+}

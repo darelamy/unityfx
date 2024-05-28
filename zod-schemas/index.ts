@@ -8,6 +8,7 @@ const passwordPattern =
 export const LoginSchema = z.object({
   email: z.string().email("Введите действительный адрес электронной почты"),
   password: z.string().min(6, "Пароль должен содержать не менее 8 символов"),
+  remember: z.boolean().optional(),
 });
 
 export const RegisterSchema = z

@@ -1,0 +1,119 @@
+@import "@/styles/variables";
+
+.input {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28.35px;
+  padding: 14px 14px 14px 24px;
+  box-sizing: border-box;
+  border: 2px solid $lightGray;
+  border-radius: 20px;
+  background: #fff;
+  width: 100%;
+  transition: all 0.2s ease-in-out;
+
+  &::placeholder {
+    color: $lightGray;
+  }
+
+  &:focus {
+    border: 2px solid $darkGray;
+  }
+}
+
+.changeTypeButton {
+  padding: 10px 20px;
+  color: $darkGray;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 30px;
+  border-radius: 14px;
+  gap: 10px;
+  outline: 2px solid $darkGray;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+
+  svg {
+    path {
+      fill: $darkGray;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+  &:disabled {
+    pointer-events: none;
+    color: $lightGrayDisabled;
+    outline: 2px solid $lightGrayDisabled;
+
+    svg {
+      path {
+        fill: $lightGrayDisabled;
+      }
+    }
+  }
+
+  &:hover {
+    color: $blueViolet;
+    outline: 2px solid $blueViolet;
+
+    svg {
+      path {
+        fill: $blueViolet;
+      }
+    }
+  }
+}
+
+.changeTypeButtonActive {
+  color: #fff;
+  background: $blueViolet;
+  outline: none;
+  pointer-events: none;
+
+  svg {
+    width: 20px;
+    height: 20px;
+
+    path {
+      fill: #fff;
+    }
+  }
+
+  &:disabled {
+    pointer-events: none;
+    background: $lightGrayDisabled;
+    outline: 2px solid $lightGrayDisabled;
+    color: $darkGrayDisabled;
+
+    svg {
+      path {
+        fill: $darkGrayDisabled;
+      }
+    }
+  }
+
+  &:hover {
+    color: #fff;
+    outline: none;
+
+    svg {
+      path {
+        fill: #fff;
+      }
+    }
+  }
+}
+
+.resultsTitle {
+  color: $blueViolet;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 59px;
+}
+
+.nullResultsText {
+  color: $lightGray;
+  font-size: 30px;
+  line-height: 45px;
+  margin-top: 15px;
+}

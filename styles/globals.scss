@@ -6,13 +6,38 @@
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1230px;
   margin: 0 auto;
+  padding: 0 15px;
 }
 
 input,
-button {
+button,
+textarea {
   outline: none;
+}
+
+.dashed {
+  border-top: 3px dashed rgb(196, 196, 196);
+  border-bottom: 3px dashed rgb(196, 196, 196);
+  margin: 60px 0;
+  padding-bottom: 60px;
+}
+
+.desktop-only {
+  display: flex;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.mobile-only {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
 }
 
 //Auth form
@@ -24,6 +49,11 @@ button {
   background: #fff;
   border-radius: 20px;
   margin-top: 60px;
+
+  @media (max-width: 520px) {
+    width: 100%;
+    padding: 20px;
+  }
 }
 
 .authFormTitle {
@@ -70,6 +100,11 @@ button {
 
 .authFormBottom {
   margin-top: 30px;
+
+  @media (max-width: 520px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
 .authFormButton {
@@ -89,6 +124,10 @@ button {
   &:hover {
     background: $blueViolet;
   }
+
+  @media (max-width: 520px) {
+    width: 100%;
+  }
 }
 
 .authFormLink {
@@ -103,6 +142,16 @@ button {
 }
 
 //Editor
+
+.cdx-input.image-tool__caption {
+  display: none !important;
+}
+
+.image-tool__image-picture {
+  width: 30%;
+  border-radius: 20px;
+  margin: 0 auto;
+}
 
 .ce-block__content,
 .ce-toolbar__content {
@@ -163,4 +212,17 @@ button {
   color: $secondary;
   font-size: 20px;
   font-weight: 500;
+}
+
+// 404 page
+
+.not-fount-title {
+  color: $red;
+  font-size: 25px;
+}
+
+.not-fount-desc {
+  color: $darkGray;
+  font-size: 20px;
+  font-weight: 400;
 }

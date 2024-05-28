@@ -22,6 +22,10 @@ model User {
   View           View[]
   Comment        Comment[]
   CommentLike    CommentLike[]
+  followedBy     User[]        @relation("UserFollows", fields: [followedByIDs], references: [id])
+  followedByIDs  String[]      @db.ObjectId
+  following      User[]        @relation("UserFollows", fields: [followingIDs], references: [id])
+  followingIDs   String[]      @db.ObjectId
 }
 
 model Post {
@@ -29,11 +33,12 @@ model Post {
   userId      String        @db.ObjectId
   user        User          @relation(fields: [userId], references: [id])
   body        Json
-  files       File[]
+  files       PostFile[]
   programs    String[]
   tags        String[]
   likes       PostLike[]
   views       View[]
+  viewsCount  Int
   comments    Comment[]
   createdAt   DateTime      @default(now())
   CommentLike CommentLike[]
@@ -43,7 +48,7 @@ model PostLike {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   postId    String   @db.ObjectId
   userId    String   @db.ObjectId
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
 }
@@ -52,20 +57,21 @@ model View {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   postId    String   @db.ObjectId
   userId    String   @db.ObjectId
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
 }
 
 model Comment {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
-  postId      String        @db.ObjectId
-  userId      String        @db.ObjectId
-  post        Post          @relation(fields: [postId], references: [id])
-  user        User          @relation(fields: [userId], references: [id])
-  text        String
-  createdAt   DateTime      @default(now())
-  CommentLike CommentLike[]
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  postId    String        @db.ObjectId
+  userId    String        @db.ObjectId
+  post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User          @relation(fields: [userId], references: [id])
+  text      String
+  files     CommentFile[]
+  createdAt DateTime      @default(now())
+  likes     CommentLike[]
 }
 
 model CommentLike {
@@ -75,16 +81,26 @@ model CommentLike {
   commentId String   @db.ObjectId
   post      Post     @relation(fields: [postId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
-  comment   Comment  @relation(fields: [commentId], references: [id])
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 
-model File {
+model PostFile {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   postId    String   @db.ObjectId
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   fileName  String
-  filePath  String
+  fileUrl   String
   fileType  String
   createdAt DateTime @default(now())
+}
+
+model CommentFile {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  fileName  String
+  fileUrl   String
+  fileType  String
+  createdAt DateTime @default(now())
+  Comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String?  @db.ObjectId
 }

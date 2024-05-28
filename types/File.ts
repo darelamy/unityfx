@@ -2,6 +2,6 @@ export interface IFile {
   id: string;
   postId: string;
   fileName: string;
-  filePath: string;
+  fileUrl: string;
   fileType: string;
 }

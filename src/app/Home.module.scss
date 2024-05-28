@@ -16,6 +16,12 @@
   span {
     color: $blueViolet;
   }
+
+  @media (max-width: 900px) {
+    width: 100%;
+    font-size: clamp(25px, 5vw, 50px);
+    line-height: clamp(30px, 5vw, 40px);
+  }
 }
 
 .introDesc {
@@ -29,6 +35,12 @@
 
   span {
     color: $blueViolet;
+  }
+
+  @media (max-width: 900px) {
+    width: 100%;
+    font-size: clamp(10px, 5vw, 25px);
+    line-height: clamp(30px, 5vw, 40px);
   }
 }
 
@@ -45,10 +57,28 @@
   padding: 40px 0;
 }
 
+.ourGoalImg {
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.ourGoalTop {
+  @media (max-width: 900px) {
+    gap: clamp(20px, 5vw, 32px);
+  }
+}
+
 .ourGoalTitle {
   color: $blue;
   font-size: 50px;
   font-weight: 800;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    font-size: clamp(30px, 5vw, 50px);
+    line-height: clamp(30px, 5vw, 40px);
+  }
 }
 
 .ourGoalDesc {
@@ -60,6 +90,12 @@
 
   span {
     color: $blue;
+  }
+
+  @media (max-width: 900px) {
+    width: 100%;
+    font-size: clamp(25px, 5vw, 30px);
+    line-height: clamp(35px, 5vw, 45px);
   }
 }
 
@@ -75,6 +111,12 @@
   color: $blue;
   font-size: 50px;
   font-weight: 800;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    font-size: clamp(30px, 5vw, 50px);
+    line-height: clamp(30px, 5vw, 40px);
+  }
 }
 
 .registerNow {
@@ -85,10 +127,28 @@
   padding: 40px 0;
 }
 
+.registerNowImg {
+  @media (max-width: 1100px) {
+    display: none;
+  }
+}
+
+.registerNowBlock {
+  @media (max-width: 1100px) {
+    gap: 20px;
+  }
+}
+
 .registerNowTitle {
   color: $blue;
   font-size: 50px;
   font-weight: 800;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    font-size: clamp(30px, 5vw, 50px);
+    line-height: clamp(30px, 5vw, 40px);
+  }
 }
 
 .registerNowDesc {
@@ -100,6 +160,12 @@
 
   span {
     color: $blue;
+  }
+
+  @media (max-width: 900px) {
+    width: 100%;
+    font-size: clamp(25px, 5vw, 30px);
+    line-height: clamp(35px, 5vw, 45px);
   }
 }
 

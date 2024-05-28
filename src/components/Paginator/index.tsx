@@ -1,16 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Paginator.module.scss";
 import { ArrowRightIcon } from "@/icons/ArrowRightIcon";
 
-export const Paginator = ({ postsPerPage, totalPosts, onPageChange }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+interface PaginatorProps {
+  postsPerPage: number;
+  totalPosts: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}
 
+export const Paginator: React.FC<PaginatorProps> = ({
+  postsPerPage,
+  totalPosts,
+  currentPage,
+  onPageChange,
+}) => {
   const totalPages = Math.ceil(totalPosts / postsPerPage);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = (pageNumber: number) => {
     onPageChange(pageNumber);
   };
 
@@ -21,10 +30,12 @@ export const Paginator = ({ postsPerPage, totalPosts, onPageChange }) => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`${i === currentPage ? styles.activePage : styles.page} flex items-center justify-center`}
+          className={`${
+            i === currentPage ? styles.activePage : styles.page
+          } flex items-center justify-center`}
         >
           <span>{i}</span>
-        </button>,
+        </button>
       );
     }
     return pageNumbers;
@@ -34,20 +45,18 @@ export const Paginator = ({ postsPerPage, totalPosts, onPageChange }) => {
     <div className={`${styles.paginator} flex justify-center`}>
       <div className="flex items-center gap-7">
         {generatePageNumbers()}
-        <div className="flex gap-3">
-          <button
-            className={`${styles.selectPageBtn} flex items-center justify-center`}
-          >
-            <span>...</span>
-          </button>
-          <button
-            className={`${styles.nextPage} flex items-center justify-center`}
-          >
-            <div>
-              <ArrowRightIcon />
-            </div>
-          </button>
-        </div>
+        {currentPage < totalPages && (
+          <div className="flex gap-3">
+            <button
+              className={`${styles.nextPage} flex items-center justify-center`}
+              onClick={() => handlePageChange(currentPage + 1)}
+            >
+              <div>
+                <ArrowRightIcon />
+              </div>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

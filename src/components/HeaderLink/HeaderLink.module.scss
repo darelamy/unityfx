@@ -6,6 +6,12 @@
   font-weight: 500;
   transition: all 0.2s ease-in-out;
 
+  span {
+    @media (max-width: 520px) {
+      display: none;
+    }
+  }
+
   svg {
     path {
       transition: all 0.2s ease-in-out;

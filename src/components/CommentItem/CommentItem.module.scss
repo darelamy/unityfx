@@ -1,9 +1,12 @@
 @import "@/styles/variables";
 
 .avatar {
-  width: 50px;
-  height: 50px;
   margin-right: 20px;
+
+  svg {
+    width: 50px;
+    height: 50px;
+  }
 
   img {
     width: 50px;
@@ -32,6 +35,7 @@
   line-height: 30px;
   margin-top: 15px;
   margin-bottom: 10px;
+  word-wrap: break-word;
 }
 
 .replyBtn {
@@ -42,5 +46,47 @@
 
   &:hover {
     color: $darkGray;
+  }
+}
+
+.commentItem {
+  position: relative;
+  padding: 10px;
+
+  &:hover .deleteButton {
+    display: block;
+  }
+}
+
+.deleteButton {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  svg {
+    path {
+      transition: all 0.2s ease-in-out;
+    }
+
+    circle {
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+  &:hover {
+    svg {
+      path {
+        fill: $blueViolet;
+      }
+
+      circle {
+        fill: #fff;
+      }
+    }
   }
 }

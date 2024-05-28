@@ -3,5 +3,6 @@ import { IUser } from "@/types/User";
 export interface IPostLike {
   id: string;
   postId: string;
-  author: IUser;
+  user: IUser;
+  createdAt: string;
 }

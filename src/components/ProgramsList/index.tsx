@@ -1,11 +1,12 @@
-import styles from "./ProgramsList.module.scss";
-import { AfterEffectsIcon } from "../ui/icons/AfterEffectsIcon";
-import { ProgramsListItem } from "../ProgramsListItem";
+import { AfterEffectsIcon } from "@/icons/AfterEffectsIcon";
 import React from "react";
-import { PremiereProIcon } from "../ui/icons/PremiereProIcon";
-import { MovaviIcon } from "../ui/icons/MovaviIcon";
-import { VegasProIcon } from "../ui/icons/VegasProIcon";
-import { DaVinciResolveIcon } from "../ui/icons/DaVinciResolveIcon";
+import { PremiereProIcon } from "@/icons/PremiereProIcon";
+import { MovaviIcon } from "@/icons/MovaviIcon";
+import { VegasProIcon } from "@/icons/VegasProIcon";
+import { DaVinciResolveIcon } from "@/icons/DaVinciResolveIcon";
+
+import styles from "./ProgramsList.module.scss";
+import { ProgramsListItem } from "@/components/ProgramsListItem";
 
 export const ProgramsList = () => {
   const programs = [
@@ -67,7 +68,7 @@ export const ProgramsList = () => {
   ];
 
   return (
-    <div className="flex justify-between">
+    <div className={`${styles.container} flex justify-between flex-wrap gap-2`}>
       {programs.map((program) => (
         <ProgramsListItem key={program.id} style={program.style}>
           {program.icon}

@@ -26,46 +26,49 @@ export const EditingProgramFiles: React.FC<EditingProgramFilesProps> = ({
 
   React.useEffect(() => {
     (async () => {
-      const updatedFiles = await Promise.all(
-        files.map(async (file) => {
-          const blob = await fetch(file.filePath).then((response) =>
-            response.blob(),
-          );
+      if (files) {
+        const updatedFiles = await Promise.all(
+          files?.map(async (file) => {
+            const blob = await fetch(file.fileUrl).then((response) =>
+              response.blob()
+            );
 
-          return {
-            id: file.id,
-            name: file.fileName,
-            formattedName: cutFileExt(file.fileName),
-            size: formatFileSize(blob.size),
-            ext: getFileExt(file.fileName),
-            blob,
-          };
-        }),
-      );
-
-      setFormattedFiles(updatedFiles);
+            return {
+              id: file.id,
+              name: file.fileName,
+              formattedName: cutFileExt(file.fileName),
+              size: formatFileSize(blob.size),
+              ext: getFileExt(file.fileName),
+              blob,
+            };
+          })
+        );
+        setFormattedFiles(updatedFiles);
+      }
     })();
   }, [files]);
 
   return (
-    <div className={`${styles.files} flex flex-wrap`}>
-      {formattedFiles.map((file) => (
-        <a
-          href={URL.createObjectURL(file.blob)}
-          download={file.name}
-          key={file.id}
-          className={`${styles.file} flex items-center gap-2`}
-        >
-          {getFileIcon(file.name)}
-          <div className="flex flex-col gap-1">
-            <div className="flex">
-              <p className={styles.name}>{file.formattedName}</p>
-              <span className={styles.ext}>.{file.ext}</span>
+    formattedFiles.length !== 0 && (
+      <div className={`${styles.files} flex flex-wrap`}>
+        {formattedFiles.map((file, index) => (
+          <a
+            href={URL.createObjectURL(file.blob)}
+            download={file.name}
+            key={index}
+            className={`${styles.file} flex items-center gap-2`}
+          >
+            {getFileIcon(file.name)}
+            <div className="flex flex-col gap-1">
+              <div className="flex">
+                <p className={styles.name}>{file.formattedName}</p>
+                <span className={styles.ext}>.{file.ext}</span>
+              </div>
+              <span className={styles.size}>{file.size}</span>
             </div>
-            <span className={styles.size}>{file.size}</span>
-          </div>
-        </a>
-      ))}
-    </div>
+          </a>
+        ))}
+      </div>
+    )
   );
 };

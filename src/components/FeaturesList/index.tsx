@@ -1,10 +1,12 @@
-import { UploadIcon } from "../ui/icons/UploadIcon";
-import { FeaturesListItem } from "../FeaturesListItem";
-import { UserIcon } from "../ui/icons/UserIcon";
-import { TalkIcon } from "../ui/icons/TalkIcon";
-import { SolidSearchIcon } from "../ui/icons/SolidSearchIcon";
-import { CommunityIcon } from "../ui/icons/CommunityIcon";
-import { PresetIcon } from "../ui/icons/PresetIcon";
+import { UploadIcon } from "@/icons/UploadIcon";
+import { UserIcon } from "@/icons/UserIcon";
+import { TalkIcon } from "@/icons/TalkIcon";
+import { SolidSearchIcon } from "@/icons/SolidSearchIcon";
+import { CommunityIcon } from "@/icons/CommunityIcon";
+import { PresetIcon } from "@/icons/PresetIcon";
+
+import styles from "./FeaturesList.module.scss";
+import { FeaturesListItem } from "@/components/FeaturesListItem";
 
 export const FeaturesList = () => {
   const features = [
@@ -55,7 +57,7 @@ export const FeaturesList = () => {
           desc={feature.desc}
           isLast={feature.id === features.at(-1)?.id}
         >
-          {feature.icon}
+          <div className={styles.icon}>{feature.icon}</div>
         </FeaturesListItem>
       ))}
     </div>

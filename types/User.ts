@@ -5,4 +5,6 @@ export interface IUser {
   desc: string;
   followsCount: number;
   followersCount: number;
+  followingIDs?: string[];
+  followedByIDs?: string[];
 }

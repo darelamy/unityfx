@@ -8,7 +8,6 @@ import { PremiereProIcon } from "@/icons/PremiereProIcon";
 import { MovaviIcon } from "@/icons/MovaviIcon";
 import { VegasProIcon } from "@/icons/VegasProIcon";
 import { DaVinciResolveIcon } from "@/icons/DaVinciResolveIcon";
-import { AttachIcon } from "@/icons/AttachIcon";
 import { GreenCheckMarkIcon } from "@/icons/GreenCheckMarkIcon";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -20,7 +19,10 @@ export const programsList: IProgram[] = [
   { id: 5, name: "Da Vinci Resolve", icon: <DaVinciResolveIcon /> },
 ];
 
-interface ProgramSelectorProps {}
+interface ProgramSelectorProps {
+  selectedPrograms: IProgram[];
+  setSelectedPrograms: React.Dispatch<React.SetStateAction<IProgram[]>>;
+}
 
 interface IProgram {
   id: number;
@@ -28,30 +30,30 @@ interface IProgram {
   icon: React.ReactNode;
 }
 
-const ProgramSelector: React.FC<ProgramSelectorProps> = ({}) => {
+export const ProgramSelector: React.FC<ProgramSelectorProps> = ({
+  selectedPrograms,
+  setSelectedPrograms,
+}) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedPrograms, setSelectedPrograms] = React.useState<IProgram[]>(
-    [],
-  );
 
   const toggleProgram = (program: IProgram) => {
     setIsOpen(false);
 
     if (
       selectedPrograms.some(
-        (selectedProgram) => selectedProgram.id === program.id,
+        (selectedProgram) => selectedProgram.id === program.id
       )
     ) {
       setSelectedPrograms(
         selectedPrograms.filter(
-          (selectedProgram) => selectedProgram.id !== program.id,
-        ),
+          (selectedProgram) => selectedProgram.id !== program.id
+        )
       );
     } else {
       setSelectedPrograms([...selectedPrograms, program]);
     }
   };
-  console.log(isOpen);
+
   return (
     <div className={styles.programSelector}>
       <div>
@@ -71,7 +73,7 @@ const ProgramSelector: React.FC<ProgramSelectorProps> = ({}) => {
                       {program.icon}
                     </div>
                     {selectedPrograms.some(
-                      (selectedProgram) => selectedProgram.id === program.id,
+                      (selectedProgram) => selectedProgram.id === program.id
                     ) && (
                       <div className={styles.programAddedIcon}>
                         <GreenCheckMarkIcon />
@@ -83,7 +85,6 @@ const ProgramSelector: React.FC<ProgramSelectorProps> = ({}) => {
             </motion.div>
           </AnimatePresence>
         )}
-
         <div
           className={`${styles.selectedProgramList} flex items-center gap-3`}
         >
@@ -115,5 +116,3 @@ const ProgramSelector: React.FC<ProgramSelectorProps> = ({}) => {
     </div>
   );
 };
-
-export default ProgramSelector;

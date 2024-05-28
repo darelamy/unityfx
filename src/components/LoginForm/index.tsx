@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/zod-schemas";
@@ -13,8 +12,6 @@ import styles from "./LoginForm.module.scss";
 
 export const LoginForm = () => {
   const [error, setError] = React.useState("");
-
-  const router = useRouter();
 
   const form = useForm({
     mode: "onChange",
@@ -29,12 +26,12 @@ export const LoginForm = () => {
     const response = await signIn("credentials", {
       email: values.email,
       password: values.password,
-      callbackUrl: "/collabs",
+      callbackUrl: "/posts",
       redirect: false,
     });
 
     if (response?.error && !response?.ok) setError(response.error);
-    else window.location.assign("/");
+    else window.location.assign("/posts");
   };
 
   return (
@@ -55,6 +52,7 @@ export const LoginForm = () => {
             type="email"
             placeholder="Почта"
             {...form.register("email")}
+            autoComplete="email"
           />
         </div>
         <div className="formFieldContainer">
@@ -63,23 +61,20 @@ export const LoginForm = () => {
           </p>
           <input
             className="authFormInput"
-            type="text"
+            type="password"
             placeholder="Пароль"
+            autoComplete="current-password"
             {...form.register("password")}
           />
         </div>
       </div>
-      <div className={`${styles.loginFormRemember} flex items-center gap-2`}>
-        <input type="checkbox" className={styles.loginFormRememberButton} />
-        <span className={styles.loginFormRememberText}>Запомнить меня</span>
-      </div>
       <div className="authFormBottom flex items-center justify-between">
         <button
           type="submit"
-          className={`${styles.loginFormButton} authFormButton`}
+          className={`${styles.loginFormButton} authFormButton flex items-center justify-center`}
           disabled={!form.formState.isValid || form.formState.isSubmitting}
         >
-          Войти
+          <span>Войти</span>
         </button>
         <Link href="/register" className="authFormLink">
           Регистрация

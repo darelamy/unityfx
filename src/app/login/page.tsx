@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const LoginPage: NextPage = () => {
   return (
-    <main>
+    <main className="mb-10">
       <div className="container flex justify-center">
         <LoginForm />
       </div>

@@ -3,11 +3,14 @@
 import React from "react";
 import styles from "./TagSelector.module.scss";
 import { AnimatePresence, motion } from "framer-motion";
-import { tag } from "postcss-selector-parser";
 
-export const TagSelector = () => {
+interface TagSelectorProps {
+  tags: string[];
+  setTags: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+export const TagSelector: React.FC<TagSelectorProps> = ({ tags, setTags }) => {
   const [currentTag, setCurrentTag] = React.useState("");
-  const [tags, setTags] = React.useState<string[]>([]);
   const [shakeTag, setShakeTag] = React.useState("");
 
   const addTag = () => {

@@ -27,20 +27,22 @@ export const RegisterForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
-    const { data } = await axios.post("/api/auth/register", {
-      values,
-    });
-
-    if (data) {
-      await signIn("credentials", {
-        email: values.email,
-        password: values.password,
-        callbackUrl: "/",
+    try {
+      const { data } = await axios.post("/api/auth/register", {
+        ...values,
       });
 
-      router.push("/");
-    } else {
-      setError("Почта или логин заняты");
+      if (data) {
+        await signIn("credentials", {
+          email: values.email,
+          password: values.password,
+          callbackUrl: "/",
+        });
+
+        router.push("/posts");
+      }
+    } catch (err: any) {
+      setError(err.response.data);
     }
   };
 
@@ -73,6 +75,7 @@ export const RegisterForm = () => {
             type="text"
             placeholder="Логин"
             {...form.register("login")}
+            autoComplete="username"
           />
         </div>
         <div className="formFieldContainer">
@@ -84,6 +87,7 @@ export const RegisterForm = () => {
             type="password"
             placeholder="Пароль"
             {...form.register("password")}
+            autoComplete="new-password"
           />
         </div>
         <div className="formFieldContainer">
@@ -95,16 +99,17 @@ export const RegisterForm = () => {
             type="password"
             placeholder="Повторите пароль"
             {...form.register("secondPassword")}
+            autoComplete="new-password"
           />
         </div>
       </div>
       <div className="authFormBottom flex items-center justify-between">
         <button
           type="submit"
-          className="authFormButton"
+          className="authFormButton flex items-center justify-center"
           disabled={!form.formState.isValid || form.formState.isSubmitting}
         >
-          Зарегистрироваться
+          <span>Зарегистрироваться</span>
         </button>
         <Link href="/login" className="authFormLink">
           Войти

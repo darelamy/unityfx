@@ -70,6 +70,10 @@
 }
 
 .attachFileRemove {
+  &:disabled {
+    display: none;
+  }
+
   svg {
     circle,
     path {

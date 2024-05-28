@@ -1,0 +1,116 @@
+@import "@/styles/variables";
+
+.avatarContainer {
+  width: 200px;
+  height: 200px;
+
+  @media (max-width: 475px) {
+    margin: 0 auto;
+  }
+}
+
+.avatar {
+  img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  svg {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+.label {
+  color: $darkGray;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 37px;
+  margin-bottom: 10px;
+}
+
+.inputFieldsContainer {
+  @media (max-width: 1230px) {
+    width: 100%;
+  }
+}
+
+.input {
+  border: 2px solid $lightGray;
+  border-radius: 20px;
+  background: #fff;
+  color: $darkGray;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28.35px;
+  padding: 14px;
+  width: 445px;
+  transition: all 0.2s ease-in-out;
+
+  &::placeholder {
+    color: $lightGray;
+  }
+
+  &:focus {
+    border-color: $darkGray;
+  }
+
+  @media (max-width: 1230px) {
+    width: 100%;
+  }
+}
+
+.textarea {
+  width: 960px;
+  transition: all 0.2s ease-in-out;
+
+  &:focus {
+    border-color: $darkGray;
+  }
+
+  @media (max-width: 1230px) {
+    width: 100%;
+  }
+}
+
+.buttons {
+  @media (max-width: 475px) {
+    justify-content: center;
+  }
+}
+
+.submitButton,
+.cancelButton {
+  width: 210px;
+  padding: 9px 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 24px;
+  border-radius: 14px;
+  background: $blueViolet;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:disabled {
+    background: $lightGrayDisabled;
+    color: $darkGrayDisabled;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: $darkGray;
+  }
+}
+
+.cancelButton {
+  background: $red;
+
+  &:hover {
+    background: #fff;
+    color: $red;
+    box-shadow: 0 0 0 2px $red inset;
+  }
+}

@@ -4,5 +4,5 @@ export interface ICommentLike {
   id: string;
   postId: string;
   commentId: string;
-  author: IUser;
+  user: IUser;
 }

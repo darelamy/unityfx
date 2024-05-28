@@ -10,14 +10,25 @@ export const POST = async (req: Request) => {
       status: 400,
     });
 
-  const existingUser = await prismadb.user.findUnique({
+  const existingEmail = await prismadb.user.findUnique({
     where: {
       email,
     },
   });
 
-  if (existingUser)
-    return new NextResponse("Пользователь уже существует", {
+  const existingLogin = await prismadb.user.findUnique({
+    where: {
+      login,
+    },
+  });
+
+  if (existingEmail)
+    return new NextResponse("Email занят", {
+      status: 400,
+    });
+
+  if (existingLogin)
+    return new NextResponse("Логин занят", {
       status: 400,
     });
 

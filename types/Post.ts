@@ -4,11 +4,13 @@ import { IPostLike } from "@/types/PostLike";
 import { IView } from "@/types/View";
 import { IComment } from "@/types/Comment";
 import { ProgramType } from "@/types/Program";
+import { OutputBlockData } from "@editorjs/editorjs";
 
 export interface IPost {
   id: string;
-  author: IUser;
-  body: string;
+  _id: string;
+  user: IUser;
+  body: OutputBlockData["data"];
   files: IFile[];
   programs: ProgramType[];
   tags: string[];
@@ -16,4 +18,5 @@ export interface IPost {
   views: IView[];
   comments: IComment[];
   createdAt: Date;
+  $createdAt: Date;
 }

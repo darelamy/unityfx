@@ -1,9 +1,8 @@
-"use client";
-
 import { M_PLUS_Rounded_1c } from "next/font/google";
 import "@/styles/globals.scss";
+import { Provider } from "@/context/Provider";
+import { NextPageContext } from "next";
 import { Header } from "@/components/Header";
-import { usePathname } from "next/navigation";
 
 const m_plus_rounded_1c = M_PLUS_Rounded_1c({
   subsets: ["latin"],
@@ -11,18 +10,19 @@ const m_plus_rounded_1c = M_PLUS_Rounded_1c({
 });
 
 interface MainLayoutProps {
+  params: NextPageContext;
   children: React.ReactNode;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const pathname = usePathname();
-
+const MainLayout: React.FC<MainLayoutProps> = async ({ children }) => {
   return (
     <html lang="ru">
-      <body className={m_plus_rounded_1c.className}>
-        <Header pathname={pathname} />
-        {children}
-      </body>
+      <Provider>
+        <body className={m_plus_rounded_1c.className}>
+          <Header />
+          {children}
+        </body>
+      </Provider>
     </html>
   );
 };

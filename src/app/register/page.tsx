@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const RegisterPage: NextPage = () => {
   return (
-    <main>
+    <main className="mb-10">
       <div className="container flex justify-center">
         <RegisterForm />
       </div>

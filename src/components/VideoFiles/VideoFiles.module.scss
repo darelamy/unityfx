@@ -20,6 +20,9 @@
 }
 
 .videoPreview {
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
   cursor: pointer;
   border-radius: 10px;
 }

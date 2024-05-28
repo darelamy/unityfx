@@ -19,6 +19,11 @@
     object-fit: cover;
     border-radius: 50%;
   }
+
+  svg {
+    width: 50px;
+    height: 50px;
+  }
 }
 
 .login {
@@ -39,6 +44,7 @@
   font-size: 20px;
   font-weight: 500;
   line-height: 30px;
+  word-wrap: break-word;
 }
 
 .programsBlockTitle {
@@ -72,6 +78,10 @@
 .commentsBlockTop {
   margin-top: 40px;
   margin-bottom: 20px;
+
+  @media (max-width: 470px) {
+    flex-direction: column;
+  }
 }
 
 .commentsBlockTitle {
@@ -160,6 +170,10 @@
   margin-left: 25px;
   transition: all 0.2s ease-in-out;
 
+  svg {
+    display: none;
+  }
+
   &:hover {
     color: #fff;
     background: $blueViolet;
@@ -168,5 +182,130 @@
   &:disabled {
     color: $darkGrayDisabled;
     background: $lightGrayDisabled;
+
+    svg {
+      path {
+        fill: $darkGrayDisabled;
+      }
+    }
   }
+
+  @media (max-width: 615px) {
+    padding: 14px;
+
+    span {
+      display: none;
+    }
+
+    svg {
+      display: flex;
+
+      path {
+        fill: #fff;
+      }
+    }
+  }
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none;
+  margin-left: 10px;
+
+  svg {
+    width: 40px;
+    height: 40px;
+
+    path {
+      transition: all 0.2s ease-in-out;
+    }
+
+    circle {
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+  &:hover {
+    svg {
+      path {
+        fill: $blueViolet;
+      }
+
+      circle {
+        fill: #fff;
+      }
+    }
+  }
+}
+
+.content:hover .deleteButton {
+  display: block;
+}
+
+.attachedFiles {
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.attachedFile {
+  width: 445px;
+  border: 2px solid $lightGray;
+  border-radius: 20px;
+  background: #fff;
+  padding: 14px 24px 14px 14px;
+}
+
+.attachedFileName {
+  color: $darkGray;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.attachedFileSize {
+  color: $lightGray;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.attachFileRemove {
+  &:disabled {
+    display: none;
+  }
+
+  svg {
+    circle,
+    path {
+      transition: stroke 0.2s ease-in-out;
+    }
+  }
+  &:hover {
+    svg {
+      circle,
+      path {
+        stroke: $blueViolet;
+      }
+    }
+  }
+}
+
+.attachedFilesError {
+  border: 5px solid rgb(255, 239, 204);
+  border-radius: 20px;
+  background: rgb(255, 190, 46);
+  width: 445px;
+  padding: 20px 0;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.attachedFileErrorText {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
 }

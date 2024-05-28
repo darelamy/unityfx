@@ -1,4 +1,6 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+"use client";
+
+import React, { ChangeEvent } from "react";
 import styles from "./FileUploadForm.module.scss";
 import { AttachIcon } from "@/icons/AttachIcon";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,6 +15,9 @@ import { WarningIcon } from "@/icons/WarningIcon";
 import { formatFileSize } from "@/helpers/formatFileSize";
 import { cutFileExt } from "@/helpers/cutFileExt";
 import { getFileExt } from "@/helpers/getFileExt";
+import axios from "axios";
+import { apiUrl } from "@/src/app/api/apiUrl";
+import { BeatLoader } from "react-spinners";
 
 export const iconMapping: { [key: string]: React.ReactNode } = {
   ".mp4": <VideoFileIcon />,
@@ -26,6 +31,7 @@ export const iconMapping: { [key: string]: React.ReactNode } = {
   ".drp": <DaVinciResolveFileIcon />,
   ".vpr": <VegasProFileIcon />,
   ".ffx": <AfterEffectFileIcon />,
+  ".aex": <AfterEffectFileIcon />,
 };
 
 export const getFileIcon = (filename: string) => {
@@ -33,11 +39,28 @@ export const getFileIcon = (filename: string) => {
   return iconMapping[extension];
 };
 
-const FileUploadForm: React.FC = () => {
-  const [files, setFiles] = useState<File[]>([]);
-  const [error, setError] = useState<string | null>(null);
+export interface IUploadedFile {
+  file: File;
+  fileUrl: string;
+}
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+interface FileUploadFormProps {
+  files: IUploadedFile[];
+  setFiles: React.Dispatch<React.SetStateAction<IUploadedFile[]>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const FileUploadForm: React.FC<FileUploadFormProps> = ({
+  files,
+  setFiles,
+  setIsLoading,
+}) => {
+  const [error, setError] = React.useState<string | null>(null);
+  const [uploadingFiles, setUploadingFiles] = React.useState<Set<string>>(
+    new Set()
+  );
+
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const newFiles = event.target.files;
 
     if (newFiles) {
@@ -45,45 +68,83 @@ const FileUploadForm: React.FC = () => {
       const newValidFiles = fileList.filter((file) => files.length < 10);
 
       if (fileList.length >= 10) {
-        setFiles([...fileList.slice(0, 10)]);
+        setFiles(
+          [...fileList.slice(0, 10)].map((file) => ({ file, fileUrl: "" }))
+        );
         setError("Вы не можете прикрепить больше 10 файлов");
       } else {
-        setFiles((prevFiles) => [...prevFiles, ...newValidFiles].slice(0, 10));
+        const filesWithUrls = newValidFiles.map((file) => ({
+          file,
+          fileUrl: "",
+        }));
+        setFiles((prevFiles) => [...prevFiles, ...filesWithUrls].slice(0, 10));
         setError(null);
+
+        await uploadFiles(filesWithUrls);
       }
     }
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (files.length === 0) {
-      alert("Please add files before submitting!");
-      return;
-    }
-    setError(null);
-    const formData = new FormData();
-    files.forEach((file) => formData.append("files", file));
+  const addToUploadingFiles = (fileName: string) => {
+    setUploadingFiles((prevState) => new Set(prevState.add(fileName)));
+  };
 
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
+  const removeFromUploadingFiles = (fileName: string) => {
+    setUploadingFiles((prevState) => {
+      const newState = new Set(prevState);
+      newState.delete(fileName);
+
+      return newState;
     });
+  };
 
-    if (response.ok) {
-      alert("Files uploaded successfully!");
-      setFiles([]);
-    } else {
-      alert("Failed to upload files.");
+  const isUploading = (fileName: string) => uploadingFiles.has(fileName);
+
+  const uploadFiles = async (files: IUploadedFile[]) => {
+    try {
+      const uploadPromises = files.map(async (fileWithUrl) => {
+        const { file } = fileWithUrl;
+        const fileName = file.name;
+
+        addToUploadingFiles(fileName);
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+          setIsLoading(true);
+
+          const response = await axios.post(`${apiUrl}/api/upload`, formData);
+          const fileUrl = response.data.fileUrl;
+
+          setFiles((prevFiles) =>
+            prevFiles.map((f) =>
+              f.file.name === fileName ? { ...f, fileUrl: fileUrl } : f
+            )
+          );
+        } finally {
+          removeFromUploadingFiles(fileName);
+          setIsLoading(false);
+        }
+      });
+
+      await Promise.all(uploadPromises);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const onRemoveAttachedFile = (attachedFile: File) => {
-    setError("");
-    setFiles(files.filter((file) => file !== attachedFile));
+  const onRemoveAttachedFile = async (attachedFile: File) => {
+    const formData = new FormData();
+    formData.append("file", attachedFile);
+
+    setFiles(files.filter((file) => file.file !== attachedFile));
+
+    await axios.delete(`${apiUrl}/api/upload`, { data: formData });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       <div>
         <label
           htmlFor="attachFile"
@@ -100,7 +161,7 @@ const FileUploadForm: React.FC = () => {
           type="file"
           id="attachFile"
           onChange={handleFileChange}
-          accept=".gif, .mp4, .mov, .webm, .veg, .prproj, .aep, .movprj, .drp, .vpr, .ffx"
+          accept=".gif, .mp4, .mov, .webm, .veg, .prproj, .aep, .movprj, .drp, .vpr, .ffx, .aex, .MBLook"
           name="file"
           hidden
           multiple
@@ -130,7 +191,7 @@ const FileUploadForm: React.FC = () => {
           </AnimatePresence>
         )}
         <AnimatePresence mode="popLayout">
-          {files.map((file, index) => (
+          {files.map(({ file }, index) => (
             <motion.div
               className={`${styles.attachedFile} flex items-center justify-between`}
               key={index}
@@ -154,19 +215,30 @@ const FileUploadForm: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <button
-                className={styles.attachFileRemove}
-                type="button"
-                onClick={() => onRemoveAttachedFile(file)}
+              <motion.div
+                className="flex items-center gap-2"
+                layout
+                initial={{ opacity: 0, x: -400, scale: 0.5 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: 200, scale: 1.2 }}
+                transition={{ duration: 0.6, type: "spring" }}
               >
-                <MinusIcon />
-              </button>
+                {isUploading(file.name) && (
+                  <BeatLoader color="#FFBE2E" size={10} />
+                )}
+                <button
+                  className={styles.attachFileRemove}
+                  type="button"
+                  onClick={() => onRemoveAttachedFile(file)}
+                  disabled={isUploading(file.name)}
+                >
+                  <MinusIcon />
+                </button>
+              </motion.div>
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
-    </form>
+    </div>
   );
 };
-
-export default FileUploadForm;
