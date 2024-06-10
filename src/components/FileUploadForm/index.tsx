@@ -15,9 +15,8 @@ import { WarningIcon } from "@/icons/WarningIcon";
 import { formatFileSize } from "@/helpers/formatFileSize";
 import { cutFileExt } from "@/helpers/cutFileExt";
 import { getFileExt } from "@/helpers/getFileExt";
-import axios from "axios";
-import { apiUrl } from "@/src/app/api/apiUrl";
 import { BeatLoader } from "react-spinners";
+import { Dropbox } from "dropbox";
 
 export const iconMapping: { [key: string]: React.ReactNode } = {
   ".mp4": <VideoFileIcon />,
@@ -102,20 +101,39 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({
 
   const uploadFiles = async (files: IUploadedFile[]) => {
     try {
+      const dbx = new Dropbox({
+        accessToken: process.env.NEXT_PUBLIC_DROPBOX_ACCESS_TOKEN,
+      });
+
       const uploadPromises = files.map(async (fileWithUrl) => {
         const { file } = fileWithUrl;
         const fileName = file.name;
 
         addToUploadingFiles(fileName);
 
-        const formData = new FormData();
-        formData.append("file", file);
-
         try {
           setIsLoading(true);
 
-          const response = await axios.post(`${apiUrl}/api/upload`, formData);
-          const fileUrl = response.data.fileUrl;
+          const arrayBuffer = await file.arrayBuffer();
+          const uint8Array = new Uint8Array(arrayBuffer);
+
+          const result = await dbx.filesUpload({
+            path: "/" + file.name,
+            contents: uint8Array,
+            mode: { ".tag": "add" },
+            autorename: true,
+            mute: false,
+          });
+
+          const sharedLinkResponse =
+            await dbx.sharingCreateSharedLinkWithSettings({
+              path: result.result.path_lower,
+            });
+
+          const fileUrl = sharedLinkResponse.result.url.replace(
+            "www.dropbox.com",
+            "dl.dropbox.com"
+          );
 
           setFiles((prevFiles) =>
             prevFiles.map((f) =>
@@ -131,16 +149,25 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({
       await Promise.all(uploadPromises);
     } catch (err) {
       console.error(err);
+      setError("Ошибка при загрузке файла на Dropbox");
+      setIsLoading(false);
     }
   };
 
   const onRemoveAttachedFile = async (attachedFile: File) => {
-    const formData = new FormData();
-    formData.append("file", attachedFile);
+    const dbx = new Dropbox({
+      fetch: fetch,
+      accessToken: process.env.NEXT_PUBLIC_DROPBOX_ACCESS_TOKEN,
+    });
 
     setFiles(files.filter((file) => file.file !== attachedFile));
 
-    await axios.delete(`${apiUrl}/api/upload`, { data: formData });
+    try {
+      await dbx.filesDeleteV2({ path: "/" + attachedFile.name });
+    } catch (err) {
+      console.error(err);
+      setError("Ошибка при удалении файла с Dropbox");
+    }
   };
 
   return (
