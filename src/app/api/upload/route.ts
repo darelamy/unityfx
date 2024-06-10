@@ -37,8 +37,6 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
   } catch (error) {
     console.error(error);
 
-    console.log("DROPBOX_ACCESS_TOKEN:", process.env.DROPBOX_ACCESS_TOKEN);
-
     return NextResponse.json(
       {
         error: "Ошибка при загрузке файла на Dropbox",
