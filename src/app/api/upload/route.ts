@@ -1,12 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { Dropbox } from "dropbox";
 import fetch from "node-fetch";
-import { NextApiResponse } from "next";
 
-export async function POST(req: NextRequest, res: NextApiResponse) {
+export async function POST(req: any, res: any) {
   try {
     const formData = await req.formData();
-    const file = formData.get("file") as File;
+    const file = formData.get("file");
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -18,7 +17,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
       fetch,
     });
 
-    const CHUNK_SIZE = 8 * 1024 * 1024;
+    const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
 
     let sessionId = null;
