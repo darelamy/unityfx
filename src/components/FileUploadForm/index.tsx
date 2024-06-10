@@ -156,7 +156,6 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({
 
   const onRemoveAttachedFile = async (attachedFile: File) => {
     const dbx = new Dropbox({
-      fetch: fetch,
       accessToken: process.env.NEXT_PUBLIC_DROPBOX_ACCESS_TOKEN,
     });
 
