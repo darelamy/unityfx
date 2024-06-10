@@ -4,23 +4,70 @@ import fetch from "node-fetch";
 import { NextApiResponse } from "next";
 
 export async function POST(req: NextRequest, res: NextApiResponse) {
-  const formData = await req.formData();
-  const file = formData.get("file") as File;
-
-  const dbx = new Dropbox({
-    clientId: "v379w9xzvjkxzia",
-    accessToken: process.env.DROPBOX_ACCESS_TOKEN,
-    fetch,
-  });
-
   try {
-    await dbx.filesUpload({
+    const formData = await req.formData();
+    const file = formData.get("file") as File;
+
+    if (!file) {
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    }
+
+    const dbx = new Dropbox({
+      clientId: "v379w9xzvjkxzia",
+      accessToken: process.env.DROPBOX_ACCESS_TOKEN,
+      fetch,
+    });
+
+    const CHUNK_SIZE = 8 * 1024 * 1024;
+    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+
+    let sessionId = null;
+
+    for (let i = 0; i < totalChunks; i++) {
+      const start = i * CHUNK_SIZE;
+      const end = Math.min(start + CHUNK_SIZE, file.size);
+      const chunk = file.slice(start, end);
+
+      const arrayBuffer = await chunk.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+
+      if (i === 0) {
+        // Start upload session
+        const response = await dbx.filesUploadSessionStart({
+          contents: uint8Array,
+        });
+        sessionId = response.result.session_id;
+      } else {
+        // Append or finish upload session
+        await dbx.filesUploadSessionAppendV2({
+          cursor: {
+            session_id: sessionId,
+            offset: start,
+          },
+          close: i === totalChunks - 1,
+          contents: uint8Array,
+        });
+      }
+    }
+
+    // Finish the upload session
+    const commitInfo = {
       path: "/" + file.name,
-      contents: file,
+      mode: "add",
+      autorename: true,
+      mute: false,
+    };
+
+    const result = await dbx.filesUploadSessionFinish({
+      cursor: {
+        session_id: sessionId,
+        offset: file.size,
+      },
+      commit: commitInfo,
     });
 
     const sharedLinkResponse = await dbx.sharingCreateSharedLinkWithSettings({
-      path: "/" + file.name,
+      path: result.result.path_lower,
     });
 
     const fileUrl = sharedLinkResponse.result.url.replace(
@@ -35,44 +82,12 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
       lastModified: new Date(file.lastModified),
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error uploading file to Dropbox:", error);
 
     return NextResponse.json(
       {
         error: "Ошибка при загрузке файла на Dropbox",
-        errorDetails: error,
-      },
-      { status: 500 }
-    );
-  }
-}
-
-export async function DELETE(req: NextRequest, res: NextApiResponse) {
-  const formData = await req.formData();
-  const file = formData.get("file") as File;
-
-  const dbx = new Dropbox({
-    accessToken: process.env.DROPBOX_ACCESS_TOKEN,
-    fetch,
-  });
-
-  try {
-    await dbx.filesUpload({
-      path: "/" + file.name,
-      contents: file,
-    });
-
-    await dbx.filesDeleteV2({ path: "/" + file.name });
-
-    return NextResponse.json({
-      fileName: file.name,
-      size: file.size,
-      lastModified: new Date(file.lastModified),
-    });
-  } catch (error) {
-    return NextResponse.json(
-      {
-        error: "Ошибка при загрузке файла на Dropbox",
+        details: error.message,
       },
       { status: 500 }
     );
