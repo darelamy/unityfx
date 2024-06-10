@@ -57,4 +57,10 @@
 .formBottom {
   margin-bottom: 40px;
   width: 445px;
+
+  @media (max-width: 475px) {
+    width: 100%;
+    gap: 20px;
+    justify-content: center;
+  }
 }

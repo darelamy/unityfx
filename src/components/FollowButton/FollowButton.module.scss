@@ -1,7 +1,7 @@
 @import "@/styles/variables";
 
 .button {
-  padding: 10px 0;
+  padding: 10px;
   width: 182px;
   color: $lightGray;
   font-size: 20px;
@@ -10,6 +10,13 @@
   border-radius: 50px;
   margin-left: 10px;
   transition: all 0.2s ease-in-out;
+
+  &:disabled {
+    pointer-events: none;
+    color: $darkGrayDisabled;
+    background: $lightGrayDisabled;
+    outline: none;
+  }
 
   &:hover {
     outline: none;

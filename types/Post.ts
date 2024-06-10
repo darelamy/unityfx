@@ -8,9 +8,9 @@ import { OutputBlockData } from "@editorjs/editorjs";
 
 export interface IPost {
   id: string;
-  _id: string;
   user: IUser;
   body: OutputBlockData["data"];
+  textContent?: string;
   files: IFile[];
   programs: ProgramType[];
   tags: string[];
@@ -18,5 +18,4 @@ export interface IPost {
   views: IView[];
   comments: IComment[];
   createdAt: Date;
-  $createdAt: Date;
 }

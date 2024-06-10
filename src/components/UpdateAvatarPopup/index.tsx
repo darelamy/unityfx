@@ -4,6 +4,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { PenIcon } from "@/ui/icons/PenIcon";
 import { CrossIcon } from "@/icons/CrossIcon";
+import { apiUrl } from "@/src/app/api/apiUrl";
 
 interface UpdateAvatarModalProps {
   handleChangeAvatar: (avatarUrl: string) => void;
@@ -57,7 +58,9 @@ export const UpdateAvatarModal: React.FC<UpdateAvatarModalProps> = ({
         avatarUrl: data.secure_url,
       });
 
-      await axios.patch("/api/upload-avatar", { avatarUrl: data.secure_url });
+      await axios.patch(`${apiUrl}/api/upload-avatar`, {
+        avatarUrl: data.secure_url,
+      });
 
       setIsUploading(false);
 

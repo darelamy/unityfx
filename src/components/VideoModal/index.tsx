@@ -5,44 +5,20 @@ import { CrossIcon } from "@/icons/CrossIcon";
 export const VideoModal = ({
   video,
   handleCloseModal,
-  onVideoLoad,
 }: {
   video: { blobUrl: string; name: string };
   handleCloseModal: () => void;
-  onVideoLoad: () => void;
 }) => {
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    setIsLoading(true);
-  }, []);
-
-  const handleVideoLoad = () => {
-    setIsLoading(false);
-    onVideoLoad();
-  };
-
   return (
-    <div className={styles.modalOverlay} onClick={handleCloseModal}>
+    <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <video
-          style={{ display: isLoading ? "none" : "block" }}
-          controls
-          className={styles.video}
-          src={video.blobUrl}
-          onLoadedData={handleVideoLoad}
-        >
+        <video controls className={styles.video} src={video.blobUrl}>
           Ваш браузер не поддерживает тег video
         </video>
-        {isLoading && <div className={styles.loadingText}>Загрузка...</div>}
-        {!isLoading && (
-          <div className="flex items-center justify-between">
-            <p className={styles.videoName}>{video.name}</p>
-            <button className={styles.closeButton} onClick={handleCloseModal}>
-              <CrossIcon />
-            </button>
-          </div>
-        )}
+        <div className={styles.videoName}>{video.name}</div>
+        <button className={styles.closeButton} onClick={handleCloseModal}>
+          <CrossIcon />
+        </button>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prismadb from "@/lib/prisma/prismadb";
 import { auth } from "@/utils/auth";
 import { IFile } from "@/types/File";
+import { OutputBlockData } from "@editorjs/editorjs";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -17,21 +18,45 @@ export async function GET(req: NextRequest) {
         createdAt: "desc",
       },
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            login: true,
+            avatarUrl: true,
+          },
+        },
         files: true,
         likes: {
           include: {
-            user: true,
+            user: {
+              select: {
+                id: true,
+                login: true,
+                avatarUrl: true,
+              },
+            },
           },
         },
         comments: {
           include: {
-            user: true,
+            user: {
+              select: {
+                id: true,
+                login: true,
+                avatarUrl: true,
+              },
+            },
             post: true,
             files: true,
             likes: {
               include: {
-                user: true,
+                user: {
+                  select: {
+                    id: true,
+                    login: true,
+                    avatarUrl: true,
+                  },
+                },
                 comment: true,
               },
             },
@@ -51,6 +76,10 @@ export async function POST(req: NextRequest) {
 
   const session = await auth();
 
+  const textContent = body
+    .map((block: OutputBlockData["data"]) => block.data.text)
+    .join(" ");
+
   const post = await prismadb.post.create({
     data: {
       user: {
@@ -59,6 +88,7 @@ export async function POST(req: NextRequest) {
         },
       },
       body,
+      textContent,
       programs,
       tags,
       viewsCount: 0,

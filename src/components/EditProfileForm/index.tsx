@@ -13,6 +13,7 @@ import { DefaultAvatar } from "@/ui/DefaultAvatar";
 import { useSession } from "next-auth/react";
 import { EditProfileSchema } from "@/zod-schemas";
 import { UpdateAvatarModal } from "@/components/UpdateAvatarPopup";
+import { apiUrl } from "@/src/app/api/apiUrl";
 
 type EditProfileFormValues = z.infer<typeof EditProfileSchema>;
 
@@ -44,7 +45,7 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
     event?.preventDefault();
 
     try {
-      const { data } = await axios.patch("/api/update-profile", {
+      const { data } = await axios.patch(`${apiUrl}/api/update-profile`, {
         login: values.login,
         desc: values.desc,
       });

@@ -1,9 +1,8 @@
 import { Metadata, NextPage } from "next";
 import React from "react";
-import { PageTitle } from "@/components/PageTitle";
 import { getServerSession } from "next-auth";
 import authOptions from "@/utils/auth";
-import { PostsBlock } from "@/components/PostsBlock";
+import { PageContent } from "@/src/app/posts/PageContent";
 
 export const metadata: Metadata = {
   title: "Посты",
@@ -18,10 +17,7 @@ const PostsPage: NextPage = async () => {
 
   return (
     <main className="mb-10 dashed">
-      <div className="container">
-        <PageTitle title="Посты" />
-        <PostsBlock authUser={authUser} />
-      </div>
+      <PageContent authUser={authUser} />
     </main>
   );
 };

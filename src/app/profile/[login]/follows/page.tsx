@@ -20,7 +20,6 @@ const getData = async (login: string) => {
 
 interface Props {
   params: { id: string; login: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

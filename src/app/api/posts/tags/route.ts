@@ -1,15 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
 import prismadb from "@/lib/prisma/prismadb";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const limit = parseInt(searchParams.get("limit") || "10", 10);
-
-  const popularPosts = await prismadb.post.findMany({
-    take: limit,
-    orderBy: {
-      likes: {
-        _count: "desc",
+  const data = await prismadb.post.findMany({
+    where: {
+      tags: {
+        has: req.nextUrl.searchParams.get("tag"),
       },
     },
     include: {
@@ -23,7 +19,13 @@ export async function GET(req: NextRequest) {
       files: true,
       likes: {
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              login: true,
+              avatarUrl: true,
+            },
+          },
         },
       },
       comments: {
@@ -39,7 +41,13 @@ export async function GET(req: NextRequest) {
           files: true,
           likes: {
             include: {
-              user: true,
+              user: {
+                select: {
+                  id: true,
+                  login: true,
+                  avatarUrl: true,
+                },
+              },
               comment: true,
             },
           },
@@ -49,5 +57,5 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  return NextResponse.json(popularPosts, { status: 200 });
+  return NextResponse.json(data, { status: 200 });
 }

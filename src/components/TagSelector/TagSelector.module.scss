@@ -2,6 +2,10 @@
 
 .formTagInputBlock {
   margin-bottom: 15px;
+
+  @media (max-width: 475px) {
+    width: 100%;
+  }
 }
 
 .formTagsInput {

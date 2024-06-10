@@ -1,56 +1,133 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  searchPosts,
-  searchPostsByTags,
-  searchUsers,
-} from "@/services/searchService";
-import { IUser } from "@/types/User";
-import { IPost } from "@/types/Post";
+import prismadb from "@/lib/prisma/prismadb";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 
-  if (!query || typeof query !== "string") {
+  if (!query)
     return NextResponse.json(
       { error: "Query parameter is required" },
       { status: 400 }
     );
-  }
 
   try {
-    let posts: IPost[] = [];
-    let users: IUser[] = [];
-    let tags: string[] = [];
-
     const mode = searchParams.get("mode");
 
     if (mode === "posts") {
-      const postsData: any = await searchPosts(query);
+      const posts = await prismadb.post.findMany({
+        where: {
+          textContent: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              login: true,
+              avatarUrl: true,
+            },
+          },
+          likes: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  login: true,
+                  avatarUrl: true,
+                },
+              },
+            },
+          },
+          files: true,
+          comments: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  login: true,
+                  avatarUrl: true,
+                },
+              },
+              post: true,
+              files: true,
+              likes: {
+                include: {
+                  user: {
+                    select: {
+                      id: true,
+                      login: true,
+                      avatarUrl: true,
+                    },
+                  },
+                  comment: true,
+                },
+              },
+            },
+          },
+          views: true,
+        },
+      });
 
-      posts = postsData.cursor.firstBatch.map((post: any) => ({
-        ...post,
-        _id: post._id.$oid || post._id,
-      }));
+      return NextResponse.json(posts, { status: 200 });
     } else if (mode === "users") {
-      users = await searchUsers(query);
+      const users = await prismadb.user.findMany({
+        where: {
+          login: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          login: true,
+          avatarUrl: true,
+          followedByIDs: true,
+          followingIDs: true,
+        },
+      });
+      return NextResponse.json(users, { status: 200 });
     } else if (mode === "tags") {
-      const tagsData: any = await searchPostsByTags(query);
-
-      tags = tagsData.cursor.firstBatch.map((post: any) => ({
-        ...post,
-        _id: post._id.$oid || post._id,
-      }));
+      const posts = await prismadb.post.findMany({
+        where: {
+          tags: {
+            has: query,
+          },
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              login: true,
+              avatarUrl: true,
+            },
+          },
+          likes: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  login: true,
+                  avatarUrl: true,
+                },
+              },
+            },
+          },
+          files: true,
+          comments: true,
+          views: true,
+        },
+      });
+      return NextResponse.json(posts, { status: 200 });
     } else {
       return NextResponse.json(
         { error: "Invalid search mode" },
         { status: 400 }
       );
     }
-
-    return NextResponse.json({ posts, users, tags }, { status: 200 });
-  } catch (error) {
-    console.error("Error during search:", error);
+  } catch (err) {
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

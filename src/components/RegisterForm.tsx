@@ -9,6 +9,7 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { z } from "zod";
 import axios from "axios";
+import { apiUrl } from "@/src/app/api/apiUrl";
 
 export const RegisterForm = () => {
   const [error, setError] = React.useState("");
@@ -28,7 +29,7 @@ export const RegisterForm = () => {
 
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     try {
-      const { data } = await axios.post("/api/auth/register", {
+      const { data } = await axios.post(`${apiUrl}/api/auth/register`, {
         ...values,
       });
 

@@ -16,7 +16,6 @@ const getData = async (login: string) => {
 
 interface Props {
   params: { id: string; login: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -33,8 +32,6 @@ const UserFollowersPage = async ({ params }: { params: { login: string } }) => {
 
   const session = await getServerSession(authOptions);
   const authUser = session?.user;
-
-  const isAuth = !!authUser;
 
   return (
     <main className="mb-10">

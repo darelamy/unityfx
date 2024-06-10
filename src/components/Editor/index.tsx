@@ -32,11 +32,7 @@ const Editor: React.FC<EditorProps> = ({ onChange, setIsLoading }) => {
               additionalRequestData: { upload_preset: "ppioffkm" },
               captionPlaceholder: "none",
               uploader: {
-                /**
-                 * @param {File}
-                 * @return {Promise.<{success, file: {url}}>}
-                 */
-                async uploadByFile(file: any) {
+                async uploadByFile(file: File) {
                   setIsLoading(true);
 
                   try {

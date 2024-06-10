@@ -9,6 +9,7 @@ import axios from "axios";
 import { apiUrl } from "@/src/app/api/apiUrl";
 import { CrossIcon } from "@/icons/CrossIcon";
 import { EditingProgramFiles } from "@/components/EditingProgramFiles";
+import Link from "next/link";
 
 interface CommentItemProps extends IComment {
   authUser?: IUser;
@@ -77,19 +78,21 @@ export const CommentItem: React.FC<CommentItemProps> = ({
 
   return (
     <div className={styles.commentItem}>
-      <div className="flex items-center">
-        <div className={styles.avatar}>
-          {user?.avatarUrl ? (
-            <img src={user.avatarUrl} alt="avatar" />
-          ) : (
-            <DefaultAvatar />
-          )}
+      <Link href={`@${user?.login}`}>
+        <div className="flex items-center">
+          <div className={styles.avatar}>
+            {user?.avatarUrl ? (
+              <img src={user.avatarUrl} alt="avatar" />
+            ) : (
+              <DefaultAvatar />
+            )}
+          </div>
+          <div className="flex flex-col">
+            <span className={styles.login}>{user?.login}</span>
+            <span className={styles.createdAt}>{formatDate(createdAt)}</span>
+          </div>
         </div>
-        <div className="flex flex-col">
-          <span className={styles.login}>{user?.login}</span>
-          <span className={styles.createdAt}>{formatDate(createdAt)}</span>
-        </div>
-      </div>
+      </Link>
       <p className={styles.text}>{text}</p>
       <EditingProgramFiles
         files={files?.filter((file) => !file.fileType.startsWith("video"))}

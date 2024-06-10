@@ -46,7 +46,7 @@ export const EditingProgramFiles: React.FC<EditingProgramFilesProps> = ({
         setFormattedFiles(updatedFiles);
       }
     })();
-  }, [files]);
+  }, []);
 
   return (
     formattedFiles.length !== 0 && (

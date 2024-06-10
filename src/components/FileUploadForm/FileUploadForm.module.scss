@@ -38,6 +38,10 @@
   &:focus {
     border: 2px solid $blueViolet;
   }
+
+  @media (max-width: 475px) {
+    width: 100%;
+  }
 }
 
 .attachedFiles {

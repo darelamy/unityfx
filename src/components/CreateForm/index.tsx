@@ -4,13 +4,14 @@ import styles from "@/src/app/create/Create.module.scss";
 import { TagSelector } from "@/components/TagSelector";
 import { ProgramSelector } from "@/components/ProgramSelector";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { FileUploadForm, IUploadedFile } from "@/components/FileUploadForm";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { apiUrl } from "@/src/app/api/apiUrl";
+import LoadingScreen from "@/components/LoadingScreen";
 
 interface IProgram {
   id: number;
@@ -20,11 +21,11 @@ interface IProgram {
 
 export const Editor = dynamic(() => import("@/components/Editor"), {
   ssr: false,
-  loading: () => <p>Loading...</p>,
+  loading: ({ isLoading }) => <LoadingScreen isLoading={!!isLoading} />,
 });
 
 export const CreateForm = () => {
-  const [blocks, setBlocks] = useState<OutputBlockData[]>([]);
+  const [blocks, setBlocks] = React.useState<OutputBlockData[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [tags, setTags] = React.useState<string[]>([]);
   const [selectedPrograms, setSelectedPrograms] = React.useState<IProgram[]>(
@@ -85,7 +86,7 @@ export const CreateForm = () => {
           setSelectedPrograms={setSelectedPrograms}
         />
       </div>
-      <div className={`${styles.formBottom} flex justify-between`}>
+      <div className={`${styles.formBottom} flex justify-between flex-wrap`}>
         <button
           onClick={onPostSubmit}
           disabled={!blocks.length || isLoading}

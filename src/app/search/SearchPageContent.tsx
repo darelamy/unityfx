@@ -1,16 +1,17 @@
 "use client";
 
-import axios from "axios";
 import React from "react";
 
 import styles from "./SearchPage.module.scss";
-import { Post } from "@/components/Post";
 import { TagIcon } from "@/icons/TagIcon";
 import { UsersIcon } from "@/icons/UsersIcon";
 import { IUser } from "@/types/User";
 import { IPost } from "@/types/Post";
 import { debounce } from "lodash";
 import { UsersList } from "@/components/UsersList";
+import { Post } from "@/components/Post";
+import axios from "axios";
+import { apiUrl } from "@/src/app/api/apiUrl";
 
 const PostIcon = () => (
   <svg
@@ -41,45 +42,32 @@ export const SearchPageContent: React.FC<SearchPageContentProps> = ({
   authUser,
 }) => {
   const [query, setQuery] = React.useState("");
-  const [results, setResults] = React.useState<{
-    posts: IPost[];
-    users: IUser[];
-    tags: string[];
-  }>({
-    posts: [],
-    users: [],
-    tags: [],
-  });
+  const [result, setResult] = React.useState<IPost[] | IUser[]>([]);
   const [totalResults, setTotalResults] = React.useState(0);
   const [searchMode, setSearchMode] = React.useState<SearchMode>("posts");
 
   const handleSearch = React.useCallback(
     async (newQuery: string) => {
       try {
-        const response = await axios.get(
-          `/api/search?query=${encodeURIComponent(
-            query || newQuery
+        const { data } = await axios.get(
+          `${apiUrl}/api/search?query=${encodeURIComponent(
+            newQuery
           )}&mode=${searchMode}`
         );
 
-        let posts = [];
-        let users = [];
-        let tags = [];
-
-        if (searchMode === "posts") posts = response.data.posts || [];
-        else if (searchMode === "users") users = response.data.users || [];
-        else if (searchMode === "tags") tags = response.data.tags || [];
-
-        setResults({ posts, users, tags });
-        setTotalResults(posts.length + users.length + tags.length);
-      } catch (error) {
-        console.error("Search error:", error);
+        setResult(data);
+        setTotalResults(data.length);
+      } catch (err) {
+        console.error(err);
       }
     },
     [searchMode]
   );
 
   const debounceOnChange = React.useMemo(() => {
+    setResult([]);
+    setTotalResults(0);
+
     return debounce((value: string) => handleSearch(value), 500);
   }, [handleSearch]);
 
@@ -90,13 +78,15 @@ export const SearchPageContent: React.FC<SearchPageContentProps> = ({
   };
 
   React.useEffect(() => {
-    if (query) handleSearch(query);
+    (async () => {
+      if (query) await handleSearch(query);
+    })();
   }, [searchMode]);
 
   React.useEffect(() => {
     if (!query) {
       setTotalResults(0);
-      setResults({ posts: [], users: [], tags: [] });
+      setResult([]);
     }
   }, [query]);
 
@@ -154,75 +144,36 @@ export const SearchPageContent: React.FC<SearchPageContentProps> = ({
         </div>
         <div className={`${styles.posts} flex flex-col gap-10`}>
           {searchMode === "posts" &&
-            results.posts.length > 0 &&
-            results.posts.map((post: IPost, index) => (
+            result.length !== 0 &&
+            (result as IPost[]).map((post, index) => (
               <Post
-                key={post._id}
-                isPostLiked={post.likes.some(
-                  (like: any) => like.userId.$oid === authUser?.id
-                )}
+                key={post.id}
                 {...post}
-                id={post._id}
-                createdAt={post.$createdAt}
-                views={post.views.map((view: any) => {
-                  return {
-                    ...view,
-                    postId: view.postId.$oid,
-                    userId: view.userId.$oid,
-                  };
-                })}
-                likes={post.likes.map((like: any) => {
-                  return {
-                    ...like,
-                    id: like?._id?.$oid,
-                    postId: like?.postId.$oid,
-                    user: {
-                      id: like.userId.$oid,
-                    },
-                  };
-                })}
-                comments={post.comments.map((comment: any) => {
-                  return {
-                    ...comment,
-                    createdAt: comment.$createdAt,
-                    id: comment?._id?.$oid,
-                    post: {
-                      id: comment?.postId?.$oid,
-                    },
-                    likes: comment.likes,
-                    user: {
-                      id: comment?.userId?.$oid,
-                    },
-                  };
-                })}
+                isPostLiked={post?.likes?.some(
+                  (like) => like.user.id === authUser?.id
+                )}
                 authUser={authUser}
               />
             ))}
         </div>
         <div className={styles.users}>
-          {searchMode === "users" && (
-            <>
-              {results.users.length > 0 && (
-                <UsersList users={results.users} authUser={authUser} />
-              )}
-            </>
+          {searchMode === "users" && result.length !== 0 && (
+            <UsersList users={result as IUser[]} authUser={authUser} />
           )}
         </div>
         <div className={styles.tags}>
-          {searchMode === "tags" && (
-            <>
-              {results.tags.length > 0 &&
-                results.tags.map((post: any, index) => (
-                  <Post
-                    key={post._id.$oid || post._id}
-                    id={post._id.$oid || post._id}
-                    {...post}
-                    createdAt={post.$createdAt}
-                    authUser={authUser}
-                  />
-                ))}
-            </>
-          )}
+          {searchMode === "tags" &&
+            result.length !== 0 &&
+            (result as IPost[]).map((post: IPost, index) => (
+              <Post
+                key={post.id}
+                {...post}
+                isPostLiked={post?.likes?.some(
+                  (like) => like.user.id === authUser?.id
+                )}
+                authUser={authUser}
+              />
+            ))}
         </div>
       </div>
     </div>
