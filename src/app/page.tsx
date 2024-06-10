@@ -83,7 +83,9 @@ const Home: NextPage = () => {
             >
               <div>
                 <div className="flex items-center gap-4">
-                  <ArrowIcon />
+                  <div className={styles.registerNowArrow}>
+                    <ArrowIcon />
+                  </div>
                   <h3 className={styles.registerNowTitle}>
                     Регистрируйтесь сейчас
                   </h3>
@@ -96,8 +98,11 @@ const Home: NextPage = () => {
                   <span>сегодня</span>!
                 </p>
               </div>
-              <Link href="/register" className={styles.registerNowBtn}>
-                Регистрация
+              <Link
+                href="/register"
+                className={`${styles.registerNowBtn} flex justify-center items-center`}
+              >
+                <span>Регистрация</span>
               </Link>
             </div>
           </div>

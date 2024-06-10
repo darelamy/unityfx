@@ -139,6 +139,12 @@
   }
 }
 
+.registerNowArrow {
+  @media (max-width: 376px) {
+    display: none;
+  }
+}
+
 .registerNowTitle {
   color: $blue;
   font-size: 50px;
@@ -167,6 +173,10 @@
     font-size: clamp(25px, 5vw, 30px);
     line-height: clamp(35px, 5vw, 45px);
   }
+
+  @media (max-width: 376px) {
+    margin-top: 25px;
+  }
 }
 
 .registerNowBtn {
@@ -175,12 +185,17 @@
   color: #fff;
   font-size: 23px;
   font-weight: 800;
-  padding: 13px 101px;
+  padding: 13px 0;
+  width: 350px;
   transition: all 0.2s ease-in-out;
 
   &:hover {
     color: $blue;
     background-color: #fff;
     box-shadow: 0 0 0 2px $blue inset;
+  }
+
+  @media (max-width: 376px) {
+    width: 100%;
   }
 }
