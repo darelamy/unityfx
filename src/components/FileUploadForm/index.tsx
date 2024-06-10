@@ -127,7 +127,7 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({
 
           const sharedLinkResponse =
             await dbx.sharingCreateSharedLinkWithSettings({
-              path: result.result.path_lower,
+              path: result.result.path_lower as string,
             });
 
           const fileUrl = sharedLinkResponse.result.url.replace(
