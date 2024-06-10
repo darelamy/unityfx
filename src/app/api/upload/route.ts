@@ -41,7 +41,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
         // Append or finish upload session
         await dbx.filesUploadSessionAppendV2({
           cursor: {
-            session_id: sessionId,
+            session_id: sessionId as string,
             offset: start,
           },
           close: i === totalChunks - 1,
@@ -60,14 +60,14 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
 
     const result = await dbx.filesUploadSessionFinish({
       cursor: {
-        session_id: sessionId,
+        session_id: sessionId as string,
         offset: file.size,
       },
-      commit: commitInfo,
+      commit: commitInfo as any,
     });
 
     const sharedLinkResponse = await dbx.sharingCreateSharedLinkWithSettings({
-      path: result.result.path_lower,
+      path: result.result.path_lower as string,
     });
 
     const fileUrl = sharedLinkResponse.result.url.replace(
@@ -87,7 +87,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
     return NextResponse.json(
       {
         error: "Ошибка при загрузке файла на Dropbox",
-        details: error.message,
+        details: error,
       },
       { status: 500 }
     );
