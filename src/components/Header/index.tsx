@@ -10,6 +10,7 @@ import { ExitButton } from "@/components/ExitButton";
 import { PostIcon } from "@/icons/PostIcon";
 import { SearchIcon } from "@/icons/SearchIcon";
 import { BurgerMenu } from "@/components/BurgerMenu";
+import React from "react";
 
 export const Header: React.FC = async () => {
   const session = await getServerSession(authOptions);

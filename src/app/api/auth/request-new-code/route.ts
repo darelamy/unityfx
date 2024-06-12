@@ -1,51 +1,51 @@
-import * as bcrypt from "bcrypt";
 import { randomBytes } from "crypto";
-
 import prismadb from "@/lib/prisma/prismadb";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+const CODE_REQUEST_INTERVAL = 60 * 1000;
+
 export const POST = async (req: Request) => {
-  const { email, login, password } = await req.json();
+  const { email } = await req.json();
 
-  if (!email || !password || !login)
-    return new NextResponse("Почта, логин и пароль обязательны", {
-      status: 400,
-    });
-
-  const existingEmail = await prismadb.user.findUnique({
+  const existingUser = await prismadb.tempUser.findUnique({
     where: {
       email,
     },
   });
 
-  const existingLogin = await prismadb.user.findUnique({
-    where: {
-      login,
-    },
-  });
-
-  if (existingEmail)
-    return new NextResponse("Email занят", {
-      status: 400,
+  if (!existingUser) {
+    return new NextResponse("Пользователь с таким email не найден", {
+      status: 404,
     });
+  }
 
-  if (existingLogin)
-    return new NextResponse("Логин занят", {
-      status: 400,
-    });
+  const lastRequestTime = new Date(existingUser.codeRequestTime || 0);
+  const timeSinceLastRequest = new Date().getTime() - lastRequestTime.getTime();
 
-  const passwordHash = await bcrypt.hash(password, 10);
+  if (timeSinceLastRequest < CODE_REQUEST_INTERVAL) {
+    const timeLeft = CODE_REQUEST_INTERVAL - timeSinceLastRequest;
+
+    return new NextResponse(
+      JSON.stringify({
+        message: "Пожалуйста, подождите перед запросом нового кода",
+        timeLeft: timeLeft,
+      }),
+      {
+        status: 429,
+      }
+    );
+  }
+
   const confirmationCode = randomBytes(3).toString("hex");
-  const tempToken = randomBytes(16).toString("hex");
 
-  const tempUser = await prismadb.tempUser.create({
-    data: {
-      login,
+  await prismadb.tempUser.update({
+    where: {
       email,
-      passwordHash,
+    },
+    data: {
       confirmationCode,
-      tempToken,
+      codeRequestTime: new Date(),
     },
   });
 
@@ -143,5 +143,5 @@ export const POST = async (req: Request) => {
     `,
   });
 
-  return NextResponse.json(tempUser);
+  return NextResponse.json({ message: "Новый код подтверждения отправлен" });
 };

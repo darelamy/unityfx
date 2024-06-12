@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema } from "@/zod-schemas";
-import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { z } from "zod";
 import axios from "axios";
 import { apiUrl } from "@/src/app/api/apiUrl";
+import Cookies from "js-cookie";
 
 export const RegisterForm = () => {
   const [error, setError] = React.useState("");
@@ -34,14 +34,23 @@ export const RegisterForm = () => {
       });
 
       if (data) {
-        await signIn("credentials", {
-          email: values.email,
-          password: values.password,
-          callbackUrl: "/",
-        });
+        const EXPIRE_TIME = 24 * 60 * 60 * 1000;
 
-        router.push("/posts");
+        sessionStorage.setItem("password", values.password);
+        sessionStorage.setItem("email", values.email);
+        Cookies.set("tempToken", data.tempToken, { expires: EXPIRE_TIME });
+        router.push("/confirmation");
       }
+
+      // if (data) {
+      //   await signIn("credentials", {
+      //     email: values.email,
+      //     password: values.password,
+      //     callbackUrl: "/confirmation",
+      //   });
+      //
+      //   router.push("/posts");
+      // }
     } catch (err: any) {
       setError(err.response.data);
     }

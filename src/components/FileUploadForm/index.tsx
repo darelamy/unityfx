@@ -230,11 +230,13 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({
               <div className="flex items-center">
                 {getFileIcon(file.name)}
                 <div className="flex flex-col">
-                  <div className="flex">
+                  <div className="flex mr-2">
                     <p className={styles.attachedFileName}>
                       {cutFileExt(file.name)}
                     </p>
-                    <span>.{getFileExt(file.name)}</span>
+                    <span className={styles.attachedFileName}>
+                      .{getFileExt(file.name)}
+                    </span>
                   </div>
                   <p className={styles.attachedFileSize}>
                     {formatFileSize(file.size)}

@@ -10,9 +10,28 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
+  const tempAuthToken = request.cookies.get("tempToken");
+
+  if (
+    (tempAuthToken?.value && pathname.startsWith("/login")) ||
+    (tempAuthToken?.value && pathname.startsWith("/register"))
+  ) {
+    return NextResponse.redirect(new URL("/confirmation", request.nextUrl));
+  }
+
+  if (!tempAuthToken?.value && pathname.startsWith("/confirmation")) {
+    return NextResponse.redirect(new URL("/login", request.nextUrl));
+  }
+
   if (token) {
-    if (pathname.startsWith("/login") || pathname.startsWith("/register")) {
-      return NextResponse.redirect(new URL("/", request.nextUrl));
+    if (
+      pathname.startsWith("/login") ||
+      pathname.startsWith("/register") ||
+      pathname.startsWith("/confirmation")
+    ) {
+      return NextResponse.redirect(
+        new URL(`/@${token.login}`, request.nextUrl)
+      );
     }
   } else {
     if (pathname.startsWith("/@") && pathname.endsWith("/edit")) {
@@ -39,5 +58,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/register", "/create", "/@:username/edit"],
+  matcher: [
+    "/login",
+    "/register",
+    "/create",
+    "/@:username/edit",
+    "/confirmation",
+  ],
 };

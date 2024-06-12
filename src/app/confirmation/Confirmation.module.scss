@@ -1,0 +1,180 @@
+@import "@/styles/variables";
+
+.form {
+  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.05);
+  background: #fff;
+  padding: 25px 45px 45px;
+  width: 576px;
+  margin-top: 60px;
+  border-radius: 20px;
+}
+
+.formButton {
+  outline: 1px solid $secondary;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 15px;
+  color: $secondary;
+  font-size: 12px;
+  line-height: 18px;
+  transition: all 0.2s ease-in-out;
+
+  &.formButtonRequestCode {
+    svg {
+      path {
+        transition: all 0.2s ease-in-out;
+      }
+    }
+  }
+
+  &:not(.formButtonRequestCode) {
+    svg {
+      path {
+        fill: $secondary;
+        transition: all 0.2s ease-in-out;
+      }
+    }
+  }
+
+  &.formButtonRequestCode {
+    &:hover {
+      background: $blueViolet;
+      color: #fff;
+      outline: none;
+
+      svg {
+        path {
+          &:nth-child(2) {
+            stroke: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  &:not(.formButtonRequestCode):hover {
+    background: $red;
+    color: #fff;
+    outline: none;
+
+    svg {
+      path {
+        fill: #fff;
+      }
+    }
+  }
+}
+
+.breadCrumb {
+  color: $secondary;
+  font-size: 15px;
+  line-height: 22px;
+  gap: 5px;
+
+  &Separator {
+    padding: 0 6px;
+  }
+
+  &Active {
+    color: $blueViolet;
+  }
+}
+
+.text {
+  color: $secondary;
+  font-size: 17px;
+  line-height: 25px;
+  margin-bottom: 30px;
+}
+
+.codeInputsContainer {
+  @media (max-width: 435px) {
+    display: grid;
+    grid-template-columns: repeat(3, 65px);
+    justify-content: center;
+  }
+}
+
+.input {
+  box-sizing: border-box;
+  border: 1px solid $lightGray;
+  border-radius: 15px;
+  background: #fff;
+  width: 65px;
+  height: 65px;
+  padding: 10px;
+  font-size: clamp(16px, 5vw, 26px);
+  line-height: 30px;
+  color: $secondary;
+  transition: all 0.2s ease-in-out;
+
+  &:disabled {
+    pointer-events: none;
+    color: $darkGrayDisabled;
+    border: 1px solid $darkGrayDisabled;
+  }
+
+  &Active {
+    color: $blueViolet;
+    border: 1px solid $blueViolet;
+  }
+
+  @media ((max-width: 610px) and (min-width: 436px)) {
+    width: 10vw;
+    height: 10vw;
+    font-size: 4vw;
+    border-radius: 2vw;
+  }
+}
+
+.requestCodeTitle {
+  color: $secondary;
+  font-size: 17px;
+  line-height: 25px;
+}
+
+.requestCodeBlockTime {
+  color: $secondary;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 25px;
+}
+
+.requestButton {
+  color: $secondary;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 25px;
+  transition: all 0.2s ease-in-out;
+
+  &:disabled {
+    pointer-events: none;
+  }
+
+  &:hover {
+    color: $blueViolet;
+  }
+}
+
+.error {
+  border: 5px solid rgb(255, 239, 204);
+  border-radius: 20px;
+  background: rgb(255, 190, 46);
+  width: 100%;
+  margin-top: 30px;
+  padding: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  @media (max-width: 475px) {
+    width: 100%;
+  }
+}
+
+.errorText {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+}

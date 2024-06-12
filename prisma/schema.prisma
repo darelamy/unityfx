@@ -8,24 +8,36 @@ datasource db {
 }
 
 model User {
-  id             String        @id @default(auto()) @map("_id") @db.ObjectId
-  login          String        @unique
-  email          String        @unique
-  passwordHash   String?
-  avatarUrl      String
-  desc           String
-  followsCount   Int
-  followersCount Int
-  Post           Post[]
-  createdAt      DateTime      @default(now())
-  PostLike       PostLike[]
-  View           View[]
-  Comment        Comment[]
-  CommentLike    CommentLike[]
-  followedBy     User[]        @relation("UserFollows", fields: [followedByIDs], references: [id])
-  followedByIDs  String[]      @db.ObjectId
-  following      User[]        @relation("UserFollows", fields: [followingIDs], references: [id])
-  followingIDs   String[]      @db.ObjectId
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  login            String        @unique
+  email            String        @unique
+  passwordHash     String?
+  confirmationCode String?
+  avatarUrl        String
+  desc             String
+  followsCount     Int
+  followersCount   Int
+  Post             Post[]
+  createdAt        DateTime      @default(now())
+  PostLike         PostLike[]
+  View             View[]
+  Comment          Comment[]
+  CommentLike      CommentLike[]
+  followedBy       User[]        @relation("UserFollows", fields: [followedByIDs], references: [id])
+  followedByIDs    String[]      @db.ObjectId
+  following        User[]        @relation("UserFollows", fields: [followingIDs], references: [id])
+  followingIDs     String[]      @db.ObjectId
+}
+
+model TempUser {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  login            String    @unique
+  email            String    @unique
+  passwordHash     String
+  confirmationCode String
+  tempToken        String
+  codeRequestTime  DateTime?
+  createdAt        DateTime  @default(now())
 }
 
 model Post {

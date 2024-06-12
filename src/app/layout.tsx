@@ -6,7 +6,7 @@ import { Header } from "@/components/Header";
 
 const m_plus_rounded_1c = M_PLUS_Rounded_1c({
   subsets: ["latin"],
-  weight: ["400", "500", "700", "800"],
+  weight: ["400", "300", "500", "700", "800"],
 });
 
 interface MainLayoutProps {

@@ -106,14 +106,14 @@
 
 .resultsTitle {
   color: $blueViolet;
-  font-size: 40px;
+  font-size: clamp(20px, 5vw, 40px);
   font-weight: 800;
   line-height: 59px;
 }
 
 .nullResultsText {
   color: $lightGray;
-  font-size: 30px;
-  line-height: 45px;
-  margin-top: 15px;
+  font-size: clamp(15px, 5vw, 30px);
+  line-height: clamp(24px, 5vw, 45px);
+  margin-top: clamp(5px, 2vw, 15px);
 }

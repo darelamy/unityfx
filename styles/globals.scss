@@ -117,7 +117,8 @@ textarea {
   transition: all 0.2s ease-in-out;
 
   &:disabled {
-    background: $lightGray;
+    background: $lightGrayDisabled;
+    color: $darkGrayDisabled;
     pointer-events: none;
   }
 

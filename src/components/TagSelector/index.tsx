@@ -14,15 +14,19 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ tags, setTags }) => {
   const [shakeTag, setShakeTag] = React.useState("");
 
   const addTag = () => {
-    if (tags.includes(currentTag)) {
-      setShakeTag(currentTag);
-      setTimeout(() => setShakeTag(""), 1000);
-      return;
-    }
+    const trimmedTag = currentTag.trim();
 
-    if (tags.length < 5 && !tags.find((tag) => tag === currentTag)) {
-      setCurrentTag("");
-      setTags([...tags, currentTag]);
+    if (trimmedTag) {
+      if (tags.includes(trimmedTag)) {
+        setShakeTag(trimmedTag);
+        setTimeout(() => setShakeTag(""), 1000);
+        return;
+      }
+
+      if (tags.length < 5 && !tags.find((tag) => tag === trimmedTag)) {
+        setCurrentTag("");
+        setTags([...tags, trimmedTag]);
+      }
     }
   };
 
@@ -39,12 +43,13 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ tags, setTags }) => {
           type="text"
           className={styles.formTagsInput}
           placeholder="Введите тег"
-          onChange={(e) => setCurrentTag(e.target.value)}
           value={currentTag}
+          onChange={(e) => setCurrentTag(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && addTag()}
         />
         <button
           className={styles.formSaveTag}
-          disabled={!currentTag || tags.length === 5}
+          disabled={!currentTag.trim() || tags.length === 5}
           onClick={addTag}
           type="button"
         >
