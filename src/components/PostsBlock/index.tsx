@@ -50,6 +50,13 @@ export const PostsBlock: React.FC<PostsBlockProps> = ({
     return allPosts.data;
   };
 
+  const getPopularPosts = async () => {
+    const popularPosts = await axios.get<{
+      posts: IPost[];
+    }>(`${apiUrl}/api/posts/popular`);
+    return popularPosts.data;
+  };
+
   const getPosts = async (page: number, postsPerPage: number) => {
     try {
       setIsLoading(true);
@@ -63,6 +70,8 @@ export const PostsBlock: React.FC<PostsBlockProps> = ({
         return data;
       } else if (type === "following") {
         return await getFollowingPosts(page, postsPerPage);
+      } else if (type === "popular") {
+        return await getPopularPosts();
       } else {
         return await getAllPosts(page, postsPerPage);
       }
@@ -74,12 +83,6 @@ export const PostsBlock: React.FC<PostsBlockProps> = ({
   };
 
   const handlePageChange = (page: number) => setCurrentPage(page);
-
-  const handleDeletePost = (postId: string) => {
-    setCurrentPosts((prevPosts) =>
-      prevPosts.filter((post) => post.id !== postId)
-    );
-  };
 
   React.useEffect(() => {
     (async () => {

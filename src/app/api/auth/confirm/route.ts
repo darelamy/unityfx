@@ -4,11 +4,10 @@ import { NextResponse } from "next/server";
 export const POST = async (req: Request) => {
   const { confirmationCode, tempToken } = await req.json();
 
-  if (!confirmationCode || !tempToken) {
+  if (!confirmationCode || !tempToken)
     return new NextResponse("Код подтверждения и токен обязательны", {
       status: 400,
     });
-  }
 
   const tempUser = await prismadb.tempUser.findFirst({
     where: {
@@ -17,11 +16,10 @@ export const POST = async (req: Request) => {
     },
   });
 
-  if (!tempUser) {
+  if (!tempUser)
     return new NextResponse("Неверный код подтверждения", {
       status: 400,
     });
-  }
 
   const { email, login, passwordHash } = tempUser;
 

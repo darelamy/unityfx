@@ -39,18 +39,9 @@ export const RegisterForm = () => {
         sessionStorage.setItem("password", values.password);
         sessionStorage.setItem("email", values.email);
         Cookies.set("tempToken", data.tempToken, { expires: EXPIRE_TIME });
+
         router.push("/confirmation");
       }
-
-      // if (data) {
-      //   await signIn("credentials", {
-      //     email: values.email,
-      //     password: values.password,
-      //     callbackUrl: "/confirmation",
-      //   });
-      //
-      //   router.push("/posts");
-      // }
     } catch (err: any) {
       setError(err.response.data);
     }

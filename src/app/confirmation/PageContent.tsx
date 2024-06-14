@@ -23,7 +23,6 @@ export const PageContent = () => {
     "",
   ]);
   const [error, setError] = React.useState("");
-  const [tempToken, setTempToken] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [timeLeft, setTimeLeft] = React.useState(0);
   const [isRequestingCode, setIsRequestingCode] = React.useState(false);
@@ -34,16 +33,13 @@ export const PageContent = () => {
   const timerRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const startTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
+    if (timerRef.current) clearInterval(timerRef.current);
 
     timerRef.current = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 0) {
-          if (timerRef.current) {
-            clearInterval(timerRef.current);
-          }
+          if (timerRef.current) clearInterval(timerRef.current);
+
           setIsRequestingCode(false);
           return 0;
         }
@@ -60,7 +56,7 @@ export const PageContent = () => {
 
       const { data } = await axios.post(`${apiUrl}/api/auth/confirm`, {
         confirmationCode: confirmationCode.join(""),
-        tempToken,
+        tempToken: Cookies.get("tempToken"),
       });
 
       if (data) {
@@ -180,12 +176,8 @@ export const PageContent = () => {
 
   React.useEffect(() => {
     const storedPassword = sessionStorage.getItem("password");
-    const storedTempToken = Cookies.get("tempToken");
 
-    if (storedPassword && storedTempToken) {
-      setPassword(storedPassword);
-      setTempToken(storedTempToken);
-    }
+    if (storedPassword) setPassword(storedPassword);
   }, []);
 
   React.useEffect(() => {
@@ -201,9 +193,7 @@ export const PageContent = () => {
     }
 
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+      if (timerRef.current) clearInterval(timerRef.current);
     };
   }, []);
 
