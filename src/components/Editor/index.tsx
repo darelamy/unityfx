@@ -59,7 +59,7 @@ const Editor: React.FC<EditorProps> = ({ onChange, setIsLoading }) => {
                   }
                 },
               },
-              buttonContent: "Загрузить превью",
+              buttonContent: "Загрузить изображение",
             },
           },
         },

@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./EditProfileForm.module.scss";
-import { AnimatePresence, motion } from "framer-motion";
 import React, { BaseSyntheticEvent } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -84,20 +83,7 @@ export const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
             <div
               className={`${styles.inputFieldsContainer} flex flex-col gap-5`}
             >
-              {error && (
-                <AnimatePresence>
-                  <motion.div
-                    className={styles.error}
-                    layout
-                    initial={{ opacity: 0, x: -400, scale: 0.5 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: 200, scale: 1.2 }}
-                    transition={{ duration: 0.6, type: "spring" }}
-                  >
-                    {error}
-                  </motion.div>
-                </AnimatePresence>
-              )}
+              {error && <p className="formFieldMainError">{error}</p>}
               <div className={styles.inputContainer}>
                 <div className="flex flex-col">
                   {form.formState.errors.login && (
