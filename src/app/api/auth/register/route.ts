@@ -130,7 +130,7 @@ export const POST = async (req: Request) => {
             <h1>Завершение регистрации</h1>
           </div>
           <div class="content">
-            <p>Здравствуйте</p>
+            <p>Здравствуйте!</p>
             <p>Для завершения регистрации на нашем сайте вам необходимо ввести следующий код подтверждения:</p>
             <div class="code">${confirmationCode}</div>
           </div>
