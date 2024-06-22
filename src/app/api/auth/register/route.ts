@@ -39,6 +39,12 @@ export const POST = async (req: Request) => {
   const confirmationCode = randomBytes(3).toString("hex");
   const tempToken = randomBytes(16).toString("hex");
 
+  await prismadb.tempUser.deleteMany({
+    where: {
+      email,
+    },
+  });
+
   const tempUser = await prismadb.tempUser.create({
     data: {
       login,
