@@ -3,7 +3,6 @@
 import styles from "@/src/app/create/Create.module.scss";
 import { TagSelector } from "@/components/TagSelector";
 import { ProgramSelector } from "@/components/ProgramSelector";
-import Link from "next/link";
 import React from "react";
 import { OutputBlockData } from "@editorjs/editorjs";
 import { FileUploadForm, IUploadedFile } from "@/components/FileUploadForm";
@@ -94,14 +93,12 @@ export const CreateForm = () => {
         >
           <span>Опубликовать</span>
         </button>
-        <Link href="/profile">
-          <button
-            className={`${styles.formBottomButton} ${styles.formBottomCancelButton} flex items-center justify-center`}
-            onClick={() => router.back()}
-          >
-            <span>Отмена</span>
-          </button>
-        </Link>
+        <button
+          className={`${styles.formBottomButton} ${styles.formBottomCancelButton} flex items-center justify-center`}
+          onClick={() => router.back()}
+        >
+          <span>Отмена</span>
+        </button>
       </div>
     </div>
   );
