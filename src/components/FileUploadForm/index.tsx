@@ -72,7 +72,7 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({
         );
         setError("Вы не можете прикрепить больше 10 файлов");
 
-        const filesWithUrls = newValidFiles.map((file) => ({
+        const filesWithUrls = [...fileList.slice(0, 10)].map((file) => ({
           file,
           fileUrl: "",
         }));
@@ -111,7 +111,7 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({
         accessToken: process.env.NEXT_PUBLIC_DROPBOX_ACCESS_TOKEN,
       });
 
-      const uploadPromises = files.map(async (fileWithUrl) => {
+      for (const fileWithUrl of files) {
         const { file } = fileWithUrl;
         const fileName = file.name;
 
@@ -150,9 +150,7 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({
           removeFromUploadingFiles(fileName);
           setIsLoading(false);
         }
-      });
-
-      await Promise.all(uploadPromises);
+      }
     } catch (err) {
       console.error(err);
       setError("Ошибка при загрузке файла на Dropbox");
@@ -161,17 +159,23 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({
   };
 
   const onRemoveAttachedFile = async (attachedFile: File) => {
-    const dbx = new Dropbox({
-      accessToken: process.env.NEXT_PUBLIC_DROPBOX_ACCESS_TOKEN,
-    });
+    const fileName = attachedFile.name;
+    const fileToRemove = files.find((f) => f.file.name === fileName);
 
-    setFiles(files.filter((file) => file.file !== attachedFile));
+    setFiles((prevFiles) =>
+      prevFiles.filter((file) => file.file.name !== fileName)
+    );
 
-    try {
-      await dbx.filesDeleteV2({ path: "/" + attachedFile.name });
-    } catch (err) {
-      console.error(err);
-      setError("Ошибка при удалении файла с Dropbox");
+    if (fileToRemove && fileToRemove.fileUrl) {
+      try {
+        const dbx = new Dropbox({
+          accessToken: process.env.NEXT_PUBLIC_DROPBOX_ACCESS_TOKEN,
+        });
+        await dbx.filesDeleteV2({ path: "/" + fileName });
+      } catch (err) {
+        console.error(err);
+        setError("Ошибка при удалении файла с Dropbox");
+      }
     }
   };
 
