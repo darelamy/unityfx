@@ -35,14 +35,14 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-        if (!user?.passwordHash) throw new Error("Неверный логин или пароль");
+        if (!user?.passwordHash) throw new Error("Неверный email или пароль");
 
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
           user.passwordHash
         );
 
-        if (!isCorrectPassword) throw new Error("Неверный логин или пароль");
+        if (!isCorrectPassword) throw new Error("Неверный email или пароль");
 
         return {
           id: user.id,
