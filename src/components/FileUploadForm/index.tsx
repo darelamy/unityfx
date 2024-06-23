@@ -71,6 +71,12 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({
           [...fileList.slice(0, 10)].map((file) => ({ file, fileUrl: "" }))
         );
         setError("Вы не можете прикрепить больше 10 файлов");
+
+        const filesWithUrls = newValidFiles.map((file) => ({
+          file,
+          fileUrl: "",
+        }));
+        await uploadFiles(filesWithUrls);
       } else {
         const filesWithUrls = newValidFiles.map((file) => ({
           file,
