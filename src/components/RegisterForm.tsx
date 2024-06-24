@@ -9,7 +9,7 @@ import Link from "next/link";
 import { z } from "zod";
 import axios from "axios";
 import { apiUrl } from "@/src/app/api/apiUrl";
-import Cookies from "js-cookie";
+import { signIn } from "next-auth/react";
 
 export const RegisterForm = () => {
   const [error, setError] = React.useState("");
@@ -20,7 +20,6 @@ export const RegisterForm = () => {
     mode: "onChange",
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      email: "",
       login: "",
       password: "",
       secondPassword: "",
@@ -33,15 +32,22 @@ export const RegisterForm = () => {
         ...values,
       });
 
-      if (data) {
-        const EXPIRE_TIME = 24 * 60 * 60 * 1000;
+      if (data)
+        await signIn("credentials", {
+          login: values.login,
+          password: values.password,
+          callbackUrl: "/posts",
+        });
 
-        sessionStorage.setItem("password", values.password);
-        sessionStorage.setItem("email", values.email);
-        Cookies.set("tempToken", data.tempToken, { expires: EXPIRE_TIME });
-
-        router.push("/confirmation");
-      }
+      // if (data) {
+      //   const EXPIRE_TIME = 24 * 60 * 60 * 1000;
+      //
+      //   sessionStorage.setItem("password", values.password);
+      //   sessionStorage.setItem("email", values.email);
+      //   Cookies.set("tempToken", data.tempToken, { expires: EXPIRE_TIME });
+      //
+      //   router.push("/confirmation");
+      // }
     } catch (err: any) {
       setError(err.response.data);
     }
@@ -56,17 +62,17 @@ export const RegisterForm = () => {
       <h3 className="authFormTitle text-center">Регистрация</h3>
       <div className="flex flex-col gap-5">
         {error && <p className="formFieldMainError">{error}</p>}
-        <div className="formFieldContainer">
-          <p className="formFieldError">
-            {form.formState.errors.email?.message}
-          </p>
-          <input
-            className="authFormInput"
-            type="email"
-            placeholder="Почта"
-            {...form.register("email")}
-          />
-        </div>
+        {/*<div className="formFieldContainer">*/}
+        {/*  <p className="formFieldError">*/}
+        {/*    {form.formState.errors.email?.message}*/}
+        {/*  </p>*/}
+        {/*  <input*/}
+        {/*    className="authFormInput"*/}
+        {/*    type="email"*/}
+        {/*    placeholder="Почта"*/}
+        {/*    {...form.register("email")}*/}
+        {/*  />*/}
+        {/*</div>*/}
         <div className="formFieldContainer">
           <p className="formFieldError">
             {form.formState.errors.login?.message}

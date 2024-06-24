@@ -10,7 +10,8 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "email", type: "text", placeholder: "email" },
+        // email: { label: "email", type: "text", placeholder: "email" },
+        login: { label: "Login", type: "text", placeholder: "login" },
         password: {
           label: "Password",
           type: "password",
@@ -18,16 +19,15 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        if (!credentials || !credentials.email || !credentials.password)
+        if (!credentials || !credentials.login || !credentials.password)
           return null;
 
         const user = await prismadb.user.findUnique({
           where: {
-            email: credentials.email,
+            login: credentials.login,
           },
           select: {
             id: true,
-            email: true,
             login: true,
             passwordHash: true,
             desc: true,
@@ -35,18 +35,17 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-        if (!user?.passwordHash) throw new Error("Неверный email или пароль");
+        if (!user?.passwordHash) throw new Error("Неверный логин или пароль");
 
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
           user.passwordHash
         );
 
-        if (!isCorrectPassword) throw new Error("Неверный email или пароль");
+        if (!isCorrectPassword) throw new Error("Неверный логин или пароль");
 
         return {
           id: user.id,
-          email: user.email,
           login: user.login,
           desc: user.desc,
           avatarUrl: user.avatarUrl,

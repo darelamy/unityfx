@@ -17,14 +17,14 @@ export const LoginForm = () => {
     mode: "onChange",
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: "",
+      login: "",
       password: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     const response = await signIn("credentials", {
-      email: values.email,
+      login: values.login,
       password: values.password,
       callbackUrl: "/posts",
       redirect: false,
@@ -45,14 +45,14 @@ export const LoginForm = () => {
         {error && <p className="formFieldMainError">{error}</p>}
         <div className="formFieldContainer">
           <p className="formFieldError">
-            {form.formState.errors.email?.message}
+            {form.formState.errors.login?.message}
           </p>
           <input
             className="authFormInput"
-            type="email"
-            placeholder="Почта"
-            {...form.register("email")}
-            autoComplete="email"
+            type="text"
+            placeholder="Логин"
+            {...form.register("login")}
+            autoComplete="login"
           />
         </div>
         <div className="formFieldContainer">
