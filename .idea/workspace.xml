@@ -6,14 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4a0b4d0b-bc97-48f3-8194-519eee91fc53" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/searchService.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/api/auth/register/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/auth/register/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/LoginForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginForm/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RegisterForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RegisterForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/globals.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globals.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/utils/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zod-schemas/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/zod-schemas/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/auth/cancel-registration/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/auth/confirm/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/auth/request-new-code/route.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

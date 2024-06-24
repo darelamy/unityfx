@@ -57,7 +57,7 @@ export async function GET(
     prismadb.post.count(),
   ]);
 
-  const { passwordHash, email, ...data } = user;
+  const { passwordHash, ...data } = user;
 
   return NextResponse.json({ user: data, posts, total });
 }
