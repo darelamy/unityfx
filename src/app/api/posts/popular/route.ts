@@ -3,7 +3,7 @@ import prismadb from "@/lib/prisma/prismadb";
 
 export async function GET(req: NextRequest) {
   const [posts, total] = await Promise.all([
-    await prismadb.post.findMany({
+    prismadb.post.findMany({
       take: 10,
       orderBy: {
         likes: {
