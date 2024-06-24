@@ -54,7 +54,15 @@ export async function GET(
         views: true,
       },
     }),
-    prismadb.post.count(),
+    await prismadb.post
+      .findMany({
+        where: {
+          user: {
+            login: context.params.login,
+          },
+        },
+      })
+      .then((data) => data.length),
   ]);
 
   const { passwordHash, ...data } = user;
