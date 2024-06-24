@@ -20,7 +20,13 @@ export async function GET(req: NextRequest) {
       files: true,
       likes: {
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              login: true,
+              avatarUrl: true,
+            },
+          },
         },
       },
       comments: {
@@ -36,7 +42,13 @@ export async function GET(req: NextRequest) {
           files: true,
           likes: {
             include: {
-              user: true,
+              user: {
+                select: {
+                  id: true,
+                  login: true,
+                  avatarUrl: true,
+                },
+              },
               comment: true,
             },
           },
