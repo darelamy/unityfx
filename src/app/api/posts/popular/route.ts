@@ -58,5 +58,7 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  return NextResponse.json({ posts: popularPosts });
+  const totalPosts = await prismadb.post.count();
+
+  return NextResponse.json({ posts: popularPosts, total: totalPosts });
 }

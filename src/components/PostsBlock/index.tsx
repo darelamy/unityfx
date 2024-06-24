@@ -53,6 +53,7 @@ export const PostsBlock: React.FC<PostsBlockProps> = ({
   const getPopularPosts = async () => {
     const popularPosts = await axios.get<{
       posts: IPost[];
+      total: number;
     }>(`${apiUrl}/api/posts/popular`);
     return popularPosts.data;
   };
