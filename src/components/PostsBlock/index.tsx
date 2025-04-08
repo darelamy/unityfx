@@ -87,9 +87,10 @@ export const PostsBlock: React.FC<PostsBlockProps> = ({
 
   React.useEffect(() => {
     (async () => {
-      const { posts, total }: any = await getPosts(currentPage, postsPerPage);
-      setCurrentPosts(posts);
-      setTotalPosts(total);
+      const data = await getPosts(currentPage, postsPerPage);
+
+      setCurrentPosts(data?.posts || []);
+      setTotalPosts(data?.total || 0);
     })();
   }, [currentPage, type, login]);
 
